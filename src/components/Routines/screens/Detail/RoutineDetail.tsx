@@ -6,6 +6,7 @@ import { MuscleOverview } from "@/components/Muscles/MuscleOverview";
 import { useRoutineDetailQuery } from "@/components/Routines/queries";
 import { RoutineDetailDropdown } from "@/components/Routines/widgets/RoutineDetailDropdown";
 import { DayDetailsCard } from "@/components/Routines/widgets/RoutineDetailsCard";
+import { GlossaryButton } from "@/core/glossary";
 import i18n from "@/i18n";
 import React from "react";
 import { useTranslation } from "react-i18next";
@@ -36,7 +37,7 @@ export const RoutineDetail = () => {
             && <WgerContainerRightSidebar
                 title={<>{routine!.name} {chip}</>}
                 subTitle={subtitle}
-                optionsMenu={<RoutineDetailDropdown routine={routineQuery.data!} />}
+                optionsMenu={<Stack direction="row"><GlossaryButton /><RoutineDetailDropdown routine={routineQuery.data!} /></Stack>}
                 mainContent={
                     <Stack spacing={2}>
 

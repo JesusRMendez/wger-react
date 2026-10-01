@@ -158,6 +158,58 @@ describe('GymSession', () => {
             expect(table.getByText('60 kg')).toBeInTheDocument();
         });
 
+        test('a set until failure cannot be done without the repetitions reached', () => {
+            renderSession([
+                { ...gymSquats, repetitionUnit: { id: 2, name: 'Until Failure' }, repetitions: null, weight: null }
+            ]);
+
+            expect(screen.getByRole('button', { name: /^Done set/ })).toBeDisabled();
+            expect(screen.getByText('Enter the repetitions you reached')).toBeInTheDocument();
+
+            fireEvent.change(screen.getByLabelText('Repetitions'), { target: { value: '9' } });
+            expect(screen.getByRole('button', { name: /^Done set/ })).toBeEnabled();
+            expect(screen.queryByText('Enter the repetitions you reached')).not.toBeInTheDocument();
+        });
+
+        test('max reps asks for the count as well, even with a weight planned', () => {
+            renderSession([
+                { ...gymSquats, repetitionUnit: { id: 7, name: 'Max Reps' }, repetitions: null, weight: 20 }
+            ]);
+
+            expect(screen.getByRole('button', { name: /^Done set/ })).toBeDisabled();
+        });
+
+        test('body weight with until failure and nothing entered cannot be logged', () => {
+            renderSession([
+                {
+                    ...gymSquats,
+                    repetitionUnit: { id: 2, name: 'Until Failure' },
+                    weightUnit: { id: 3, name: 'Body Weight' },
+                    repetitions: null,
+                    weight: null,
+                }
+            ]);
+
+            fireEvent.change(screen.getByLabelText('Repetitions'), { target: { value: '0' } });
+            // Zero is a number that can be saved
+            expect(screen.getByRole('button', { name: /^Done set/ })).toBeEnabled();
+
+            fireEvent.change(screen.getByLabelText('Repetitions'), { target: { value: '' } });
+            expect(screen.getByRole('button', { name: /^Done set/ })).toBeDisabled();
+        });
+
+        test('a set with neither repetitions nor weight cannot be done', () => {
+            renderSession([
+                { ...gymTimed, repetitions: null, weight: null, repetitionUnit: { id: 3, name: 'Seconds' } }
+            ]);
+
+            expect(screen.getByRole('button', { name: /^Done set/ })).toBeDisabled();
+            expect(screen.getByText('Enter the repetitions or the weight to log this set.')).toBeInTheDocument();
+
+            fireEvent.change(screen.getByLabelText('Seconds'), { target: { value: '20' } });
+            expect(screen.getByRole('button', { name: /^Done set/ })).toBeEnabled();
+        });
+
         test('the log keeps the units of the exercise', () => {
             renderSession();
 

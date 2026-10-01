@@ -89,6 +89,17 @@ export function weightUnitKind(unit: UnitLike): WeightUnitKind {
     return 'other';
 }
 
+/** The "Max Reps" unit: the repetitions are what the user reports, nothing is planned */
+export const isMaxRepsUnit = (unit: UnitLike): boolean => unit !== null && /max\s*_?\s*reps?/i.test(unit.name);
+
+/** Whether the number of repetitions achieved has to be entered: sets until failure or for max reps */
+export const needsRepetitionCount = (unit: UnitLike): boolean =>
+    repetitionUnitKind(unit) === 'failure' || isMaxRepsUnit(unit);
+
+/** A set needs at least one number, the server rejects a log with neither repetitions nor weight */
+export const hasLoggableValue = (repetitions: number | null, weight: number | null): boolean =>
+    repetitions !== null || weight !== null;
+
 export const isTimeKind = (kind: RepetitionUnitKind): boolean => kind === 'seconds' || kind === 'minutes';
 
 /** The seconds a value of a time-based unit stands for */
@@ -289,7 +300,9 @@ export type GymAction =
     | { type: 'logSet', repetitions: number | null, weight: number | null, now: number }
     | { type: 'removeSet', id: number }
     | { type: 'finishRest', advance: boolean }
-    | { type: 'advance' };
+    | { type: 'advance' }
+    /** Takes sets out of the plan, e.g. to fit the time available. Sets already done stay. */
+    | { type: 'dropSets', drops: { key: string, sets: number }[] };
 
 export function createGymState(exercises: GymExercise[], now: number): GymState {
     return {
@@ -454,6 +467,19 @@ export function gymReducer(state: GymState, action: GymAction): GymState {
 
         case 'advance': {
             return { ...state, currentKey: nextPending(state) ?? state.currentKey };
+        }
+
+        case 'dropSets': {
+            const exercises = state.exercises.map(exercise => {
+                const drop = action.drops.find(d => d.key === exercise.key);
+                if (drop === undefined || drop.sets <= 0) {
+                    return exercise;
+                }
+                return { ...exercise, nrOfSets: Math.max(doneSetsOf(state, exercise.key), exercise.nrOfSets - drop.sets) };
+            });
+            const dropped = { ...state, exercises };
+            // The exercise in front of the user may be gone now
+            return { ...dropped, currentKey: nextPending(dropped) ?? dropped.currentKey };
         }
     }
 }

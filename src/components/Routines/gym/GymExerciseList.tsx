@@ -12,6 +12,7 @@ import ArrowUpwardIcon from "@mui/icons-material/ArrowUpward";
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 import {
     Card,
+    Chip,
     CardContent,
     CardHeader,
     IconButton,
@@ -35,6 +36,8 @@ export const GymExerciseList = (props: {
     language?: Language,
     onSelect: (key: string) => void,
     onMove: (key: string, direction: 'up' | 'down') => void,
+    /** The zone of each exercise by key, when a location is known */
+    zones?: Record<string, string>,
 }) => {
     const { t } = useTranslation();
     const { state } = props;
@@ -81,10 +84,19 @@ export const GymExerciseList = (props: {
                             </ListItemAvatar>
                             <ListItemText
                                 primary={name}
-                                secondary={t('routines.gym.setsDone', {
-                                    done: Math.min(doneSetsOf(state, exercise.key), exercise.nrOfSets),
-                                    total: exercise.nrOfSets,
-                                })}
+                                slotProps={{ secondary: { component: 'div' } }}
+                                secondary={<>
+                                    {t('routines.gym.setsDone', {
+                                        done: Math.min(doneSetsOf(state, exercise.key), exercise.nrOfSets),
+                                        total: exercise.nrOfSets,
+                                    })}
+                                    {props.zones?.[exercise.key] !== undefined && <Chip
+                                        size="small"
+                                        variant="outlined"
+                                        label={props.zones[exercise.key]}
+                                        sx={{ ml: 1 }}
+                                    />}
+                                </>}
                             />
                             {complete && <CheckCircleIcon color="success" fontSize="small" />}
                         </ListItemButton>

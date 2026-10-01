@@ -1,6 +1,10 @@
 import { Language } from "@/components/Exercises";
 import { GymCurrentExercise } from "@/components/Routines/gym/GymCurrentExercise";
 import { GymExerciseList } from "@/components/Routines/gym/GymExerciseList";
+import { GymPlanningPanel } from "@/components/Routines/gym/GymPlanningPanel";
+import { MusicBpmCard } from "@/components/Routines/gym/MusicBpmCard";
+import { musicPhaseForExercise } from "@/components/Routines/gym/musicBpm";
+import { GlossaryButton } from "@/core/glossary";
 import { GymRestCard } from "@/components/Routines/gym/GymRestCard";
 import {
     createGymState,
@@ -43,6 +47,9 @@ export const GymSession = (props: {
     exercises: GymExercise[],
     language?: Language,
     previousLogs: PreviousLike[],
+    /** With the routine and the day, the location and time planning is offered */
+    routineId?: number,
+    dayId?: number,
     /** Saves the session. Rejects if that fails, the page then stays as it is. */
     onFinish: (state: GymState) => Promise<void>,
 }) => {
@@ -54,6 +61,7 @@ export const GymSession = (props: {
     const [confirmOpen, setConfirmOpen] = useState(false);
     const [isSaving, setIsSaving] = useState(false);
     const [saveFailed, setSaveFailed] = useState(false);
+    const [zones, setZones] = useState<Record<string, string>>({});
 
     // The clock only runs while there is a rest to count down
     const [now, setNow] = useState(() => Date.now());
@@ -159,6 +167,7 @@ export const GymSession = (props: {
                         aria-hidden
                     />
                 </Stack>
+                <GlossaryButton />
                 <Button
                     variant="contained"
                     color="success"
@@ -171,12 +180,22 @@ export const GymSession = (props: {
 
             {saveFailed && <Alert severity="error">{t('routines.gym.saveFailed')}</Alert>}
 
+            {props.routineId !== undefined && props.dayId !== undefined && <GymPlanningPanel
+                routineId={props.routineId}
+                dayId={props.dayId}
+                state={state}
+                dispatch={dispatch}
+                language={props.language}
+                onZonesChange={setZones}
+            />}
+
             <Grid container spacing={2}>
                 {/* On small screens the current exercise comes first, then the timer, then the list */}
                 <Grid size={{ xs: 12, md: 3 }} sx={{ order: { xs: 3, md: 1 } }}>
                     <GymExerciseList
                         state={state}
                         language={props.language}
+                        zones={zones}
                         onSelect={key => dispatch({ type: 'select', key })}
                         onMove={(key, direction) => dispatch({ type: 'move', key, direction })}
                     />
@@ -194,6 +213,7 @@ export const GymSession = (props: {
                     />
                 </Grid>
                 <Grid size={{ xs: 12, md: 3 }} sx={{ order: { xs: 2, md: 3 } }}>
+                    <Stack spacing={2}>
                     <GymRestCard
                         state={state}
                         now={now}
@@ -202,6 +222,8 @@ export const GymSession = (props: {
                         onPreferencesChange={updatePreferences}
                         onSkip={() => dispatch({ type: 'finishRest', advance: preferences.autoAdvance })}
                     />
+                    <MusicBpmCard phase={rest !== null && !isRestOver ? 'rest' : musicPhaseForExercise(current)} />
+                    </Stack>
                 </Grid>
             </Grid>
         </Stack>

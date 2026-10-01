@@ -9,6 +9,7 @@ import { isSameDay } from "@/core/lib/date";
 import { makeLink, WgerLink } from "@/core/lib/url";
 import { RenderLoadingQuery } from "@/core/ui/Widgets/RenderLoadingQuery";
 import { Addchart } from "@mui/icons-material";
+import TimerIcon from "@mui/icons-material/Timer";
 import PlayArrowIcon from '@mui/icons-material/PlayArrow';
 import TodayIcon from '@mui/icons-material/Today';
 import {
@@ -244,6 +245,16 @@ export const DayDetailsCard = (props: {
                                 id2: props.day.id!
                             })}>
                             {t('routines.gym.start')}
+                        </Button>}
+                        {(slotData.length > 0 || props.day.slots.length > 0) && <Button
+                            size="small"
+                            variant="outlined"
+                            startIcon={<TimerIcon />}
+                            href={makeLink(WgerLink.ROUTINE_GUIDED_MODE, i18n.language, {
+                                id: props.routineId,
+                                id2: props.day.id!
+                            })}>
+                            {t('routines.guided.start')}
                         </Button>}
                         <Tooltip title={t('routines.addWeightLog')}>
                             <IconButton

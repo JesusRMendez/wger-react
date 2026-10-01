@@ -374,7 +374,62 @@
             "finishEarlyText_one": "One planned set was not done. Only the sets you completed are saved.",
             "finishEarlyText_other": "{{count}} planned sets were not done. Only the sets you completed are saved.",
             "keepTraining": "Keep training",
-            "saveFailed": "The training session could not be saved. Please try again."
+            "saveFailed": "The training session could not be saved. Please try again.",
+            "enterRepsAchieved": "Enter the repetitions you reached",
+            "enterValue": "Enter the repetitions or the weight to log this set.",
+            "planning": {
+                "title": "Before you start",
+                "location": "Location",
+                "noLocations": "No training locations yet.",
+                "budget": "Time available",
+                "noBudget": "No limit",
+                "minutes": "{{count}} min",
+                "zoneChanges": "Zone changes: planned {{planned}} → suggested {{suggested}}",
+                "orderByZone": "Order by zone",
+                "missingEquipment": "{{name}} needs equipment this location does not have: {{equipment}}",
+                "estimate": "Estimated duration: about {{minutes}} min",
+                "overBudget": "The session takes about {{estimate}} min but you have {{budget}} min.",
+                "dropSets_one": "Drop {{count}} set of {{name}}",
+                "dropSets_other": "Drop {{count}} sets of {{name}}",
+                "applyDrops": "Drop these sets",
+                "leavesOutExercises": "Some exercises would be left out completely."
+            }
+        },
+        "guided": {
+            "title": "Guided routine",
+            "start": "Guided",
+            "readyText_one": "{{count}} set in this routine. The timer runs by itself: press start when you are ready.",
+            "readyText_other": "{{count}} sets in this routine. The timer runs by itself: press start when you are ready.",
+            "phases": {
+                "ready": "Ready",
+                "countdown": "Get ready",
+                "work": "Work",
+                "rest": "Rest",
+                "askMaxReps": "How many?",
+                "done": "Done"
+            },
+            "howMany": "How many did you do? ({{unit}})",
+            "repsAchieved": "Repetitions reached",
+            "confirmCount": "Save and rest",
+            "finishEarly": "Finish this set now",
+            "doneSet": "Done",
+            "upNext": "Up next: {{name}}",
+            "startNext": "Start next set",
+            "allDone": "All sets are done. Finish to save the training.",
+            "remaining": "About {{minutes}} min left",
+            "warningTitle": "Change the plan?",
+            "continueAnyway": "Continue anyway",
+            "warnings": {
+                "skipsSets_one": "{{count}} set that is still to do will be left for later.",
+                "skipsSets_other": "{{count}} sets that are still to do will be left for later.",
+                "leavesExercise_one": "{{name}} still has {{count}} set to do.",
+                "leavesExercise_other": "{{name}} still has {{count}} sets to do.",
+                "outOfPlan": "This is not the order of the plan, which may matter for your goal.",
+                "movesCurrent": "This changes the exercise you are doing or the one that comes next.",
+                "ready": "",
+                "countdown": ""
+            },
+            "begin": "Start"
         }
     },
     "measurements": {
@@ -520,5 +575,178 @@
     },
     "calendar": "Calendar",
     "entries": "Entries",
-    "no_entries_for_day": "No entries for this day"
+    "no_entries_for_day": "No entries for this day",
+    "glossary": {
+        "title": "Glossary",
+        "help": "Help and glossary",
+        "explain": "Explain {{term}}",
+        "search": "Search terms",
+        "noResults": "No term matches your search.",
+        "whatItIs": "What it is",
+        "howItHelps": "How it helps your goal",
+        "example": "Example",
+        "terms": {
+            "oneRm": {
+                "abbr": "1RM",
+                "name": "One-repetition maximum",
+                "what": "The heaviest weight you can lift for a single clean repetition. It is usually estimated from a set of several repetitions instead of being tested all-out.",
+                "how": "It lets you compare strength over time and pick working weights as a percentage of it, so your training stays hard enough to make you stronger without guessing.",
+                "example": "You lift 80 kg for 5 repetitions, which is an estimated 1RM of about 93 kg. Working sets at 70% of it are around 65 kg."
+            },
+            "rir": {
+                "abbr": "RIR",
+                "name": "Repetitions in reserve",
+                "what": "How many more repetitions you could still have done with good form when you stop a set.",
+                "how": "It keeps the effort of every set under control: close to failure builds muscle and strength, while leaving a reserve protects your joints and your recovery.",
+                "example": "RIR 2 means you stop the set while you could have done 2 more repetitions."
+            },
+            "rpe": {
+                "abbr": "RPE",
+                "name": "Rating of perceived exertion",
+                "what": "A scale from 1 to 10 for how hard a set felt. 10 is the most you could do, 8 means about 2 repetitions were left.",
+                "how": "It lets you adjust the load by feel on days when you are tired or fresh, so the effort stays on target.",
+                "example": "A set planned at RPE 8 that felt like a 10 tells you to lower the weight next time."
+            },
+            "doubleProgression": {
+                "abbr": "Double progression",
+                "name": "Double progression",
+                "what": "A way to progress with a repetition range. You first add repetitions until you reach the top of the range in all sets, then you add weight and start at the bottom of the range again.",
+                "how": "It gives you a clear rule for when to go heavier and makes progress steady, with no need to jump weight before you are ready.",
+                "example": "With 3 sets of 8 to 12 repetitions: when you manage 12, 12, 12 at 40 kg, next time use 42.5 kg and aim for 8 again."
+            },
+            "deload": {
+                "abbr": "Deload",
+                "name": "Deload week",
+                "what": "A planned lighter week, with less weight or fewer sets, so the body can recover from accumulated fatigue.",
+                "how": "It lowers the risk of overtraining and injury and often lets you come back stronger after it.",
+                "example": "After 8 weeks of progression, week 9 uses 60% of the usual weight and half of the sets."
+            },
+            "superset": {
+                "abbr": "Superset",
+                "name": "Superset",
+                "what": "Two or more exercises done back to back with little or no rest in between, and rest only after the last one.",
+                "how": "It saves time and raises the intensity of a session, which is useful when your time is limited.",
+                "example": "Biceps curls followed straight away by triceps extensions, then 90 seconds of rest."
+            },
+            "amrap": {
+                "abbr": "AMRAP",
+                "name": "As many repetitions as possible",
+                "what": "A set where you do as many repetitions as you can, or as many rounds as you can in a given time.",
+                "how": "It shows your current capacity and gives a number to beat next time, which makes progress easy to see.",
+                "example": "AMRAP of push-ups with your own body weight: you stop at 23, and next time you aim for 24."
+            },
+            "pr": {
+                "abbr": "PR",
+                "name": "Personal record",
+                "what": "Your best result so far in an exercise: the most weight, the most repetitions or the best time.",
+                "how": "Records are a clear and motivating sign that your plan works, and they mark the points to build on.",
+                "example": "Bench press 60 kg for 8 repetitions, where your best was 7: that is a repetition PR at 60 kg."
+            },
+            "volume": {
+                "abbr": "Volume",
+                "name": "Training volume",
+                "what": "The total amount of work you do, usually counted as sets, or as sets times repetitions times weight.",
+                "how": "Volume is one of the main drivers of muscle growth. Tracking it helps you increase the workload gradually and notice when it is too much or too little.",
+                "example": "3 sets of 10 repetitions at 50 kg is 1,500 kg of volume for that exercise."
+            },
+            "kcal": {
+                "abbr": "kcal",
+                "name": "Kilocalories",
+                "what": "The unit for the energy in food and the energy your body uses. What people call calories on a label is kcal.",
+                "how": "Eating fewer kcal than you use leads to weight loss, more leads to weight gain. Knowing your target makes the plan to reach your goal concrete.",
+                "example": "A target of 2,200 kcal per day to keep your weight, or about 1,900 kcal to lose weight slowly."
+            },
+            "macros": {
+                "abbr": "Macros",
+                "name": "Macronutrients",
+                "what": "The three groups of nutrients that provide energy: protein, carbohydrates and fat.",
+                "how": "Enough protein supports muscle, carbohydrates fuel training and fat supports hormones, so a good split makes your kcal work for your goal.",
+                "example": "A day with 150 g of protein, 250 g of carbohydrates and 70 g of fat is about 2,230 kcal."
+            },
+            "nutriScore": {
+                "abbr": "Nutri-Score",
+                "name": "Nutri-Score",
+                "what": "A label from A (green) to E (red) that rates the overall nutritional quality of a food, mainly by comparing sugar, salt and saturated fat with fibre and protein.",
+                "how": "It is a quick way to compare similar products when you shop and to choose the better one for your diet.",
+                "example": "Between two breakfast cereals, the one with a B is a better everyday choice than the one with a D."
+            },
+            "nova": {
+                "abbr": "NOVA",
+                "name": "NOVA classification",
+                "what": "A grouping of foods from 1 to 4 by how much they are processed: 1 is unprocessed or minimally processed, 4 is ultra-processed.",
+                "how": "Building most of your meals from groups 1 and 2 makes it easier to eat well and to feel full on fewer kcal.",
+                "example": "An apple is NOVA 1, a pack of sweet biscuits is NOVA 4."
+            },
+            "movingAverage": {
+                "abbr": "7-day moving average",
+                "name": "7-day moving average",
+                "what": "The average of the last 7 days, recalculated every day. It smooths out the daily ups and downs.",
+                "how": "Body weight changes by up to 1 to 2 kg from day to day because of water and food. The average shows the real trend, so you do not react to noise.",
+                "example": "Weights of 81.2, 80.6, 81.5, 80.9, 81.0, 80.7 and 81.1 kg give a 7-day average of 81.0 kg."
+            },
+            "hr": {
+                "abbr": "HR",
+                "name": "Heart rate",
+                "what": "How many times your heart beats per minute (bpm).",
+                "how": "It tells you how hard your body is working, so you can train in the zone that fits your goal, easy for endurance and recovery, hard for intervals.",
+                "example": "A resting HR of 60 bpm, and 150 bpm during a run, where your maximum is about 190 bpm."
+            },
+            "stepsPerMinute": {
+                "abbr": "Steps/min",
+                "name": "Steps per minute",
+                "what": "Your walking or running cadence: how many steps you take in a minute.",
+                "how": "It is an easy way to check the intensity of a walk. Moderate intensity starts at around 100 steps per minute, a brisk pace at around 130.",
+                "example": "A 30 minute walk at 110 steps per minute is 3,300 steps at moderate intensity."
+            },
+            "bpm": {
+                "abbr": "BPM",
+                "name": "Beats per minute",
+                "what": "The tempo of a song. In training music, a higher BPM feels more energetic.",
+                "how": "Music at the tempo of your activity helps you keep rhythm and effort: slower for warm-up and recovery, faster for intervals.",
+                "example": "Around 100 to 120 BPM for a warm-up, 120 to 140 for strength work, 150 to 170 for high-intensity intervals."
+            }
+        }
+    },
+    "locations": {
+        "title": "Training locations",
+        "intro": "Describe where you train, which equipment is there and how it is laid out in zones. The gym mode uses this to order your exercises so you walk less.",
+        "empty": "You have no training locations yet.",
+        "addLocation": "Add location",
+        "editLocation": "Edit location",
+        "editLocationNamed": "Edit location {{name}}",
+        "deleteLocationNamed": "Delete location {{name}}",
+        "deleteLocationConfirm": "Delete the location {{name}} and its zones?",
+        "availableMinutes": "Available minutes",
+        "availableMinutesHelp": "Optional. How long you usually have to train here.",
+        "minutesInvalid": "Enter a whole number of minutes, or leave it empty.",
+        "isDefault": "Default location",
+        "default": "Default",
+        "minutesAvailable_one": "{{count}} minute available",
+        "minutesAvailable_other": "{{count}} minutes available",
+        "noEquipment": "No equipment selected",
+        "zones": "Zones",
+        "addZone": "Add zone",
+        "editZone": "Edit zone",
+        "zoneEquipment": "Equipment in this zone",
+        "noZones": "No zones yet.",
+        "editZoneNamed": "Edit zone {{name}}",
+        "deleteZoneNamed": "Delete zone {{name}}",
+        "deleteZoneConfirm": "Delete the zone {{name}}?",
+        "moveZoneUp": "Move zone {{name}} up",
+        "moveZoneDown": "Move zone {{name}} down",
+        "loadFailed": "The data could not be loaded.",
+        "saveFailed": "The location could not be saved. Please try again."
+    },
+    "music": {
+        "title": "Music by tempo",
+        "phase": "Phase",
+        "phases": {
+            "warmup": "Warm-up",
+            "strength": "Strength",
+            "hiit": "Intervals",
+            "rest": "Rest"
+        },
+        "spotify": "Search on Spotify",
+        "youtubeMusic": "Search on YouTube Music"
+    }
 }

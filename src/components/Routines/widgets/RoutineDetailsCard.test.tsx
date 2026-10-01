@@ -77,5 +77,10 @@ describe("Test the RoutineDetail component", () => {
         const links = screen.getAllByRole('link', { name: 'routines.gym.start' });
         expect(links).toHaveLength(1);
         expect(links[0]).toHaveAttribute('href', '/en/routine/101/day/5/gym');
+
+        // ... and to the guided routine, next to it
+        const guided = screen.getAllByRole('link', { name: 'routines.guided.start' });
+        expect(guided).toHaveLength(1);
+        expect(guided[0]).toHaveAttribute('href', '/en/routine/101/day/5/guided');
     });
 });

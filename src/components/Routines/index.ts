@@ -5,6 +5,7 @@
  * internal sub-paths.
  */
 export { RoutineAdd } from "./screens/Detail/RoutineAdd";
+export { GuidedMode } from "./screens/Detail/GuidedMode";
 export { GymMode } from "./screens/Detail/GymMode";
 export { RoutineDetail } from "./screens/Detail/RoutineDetail";
 export { RoutineDetailsTable } from "./screens/Detail/RoutineDetailsTable";

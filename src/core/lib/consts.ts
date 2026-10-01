@@ -73,6 +73,11 @@ export enum QueryKey {
     TROPHIES = 'trophies',
     USER_TROPHIES = 'user-trophies',
     USER_TROPHY_PROGRESSION = 'user-trophy-progression',
+
+    // Training locations
+    TRAINING_LOCATIONS = 'training-locations',
+    LOCATION_ZONES = 'location-zones',
+    ZONE_ORDER = 'zone-order',
 }
 
 /*
