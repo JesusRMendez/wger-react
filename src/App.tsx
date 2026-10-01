@@ -1,5 +1,4 @@
-import Grid from '@mui/material/Grid';
-import { Header } from '@/app/layout/Header';
+import { AppShell } from '@/app/layout/AppShell';
 import React from 'react';
 import { WgerRoutes } from "@/routes";
 
@@ -7,14 +6,9 @@ import { WgerRoutes } from "@/routes";
 function App() {
 
     return (
-        (<Grid container>
-            <Grid size={12}>
-                <Header />
-            </Grid>
-            <Grid size={12}>
-                <WgerRoutes />
-            </Grid>
-        </Grid>)
+        <AppShell>
+            <WgerRoutes />
+        </AppShell>
     );
 }
 

@@ -345,6 +345,17 @@ const components = (theme: Theme): ThemeOptions['components'] => ({
                 '&:active': { transform: `scale(${motion.pressScale})` },
             },
         },
+        variants: [
+            // Floating actions are primary actions: ink, like the primary buttons
+            {
+                props: { color: 'primary' },
+                style: { backgroundColor: atlas.ink, color: '#FFFFFF', '&:hover': { backgroundColor: atlas.inkHover } },
+            },
+            {
+                props: { color: 'secondary' },
+                style: { backgroundColor: atlas.ink, color: '#FFFFFF', '&:hover': { backgroundColor: atlas.inkHover } },
+            },
+        ],
     },
     MuiLink: {
         defaultProps: { underline: 'hover' },
