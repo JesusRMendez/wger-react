@@ -1,13 +1,34 @@
+/*
+ * Base styles for the standalone app (the django app brings its own page styles).
+ * The fonts (Geist, Geist Mono) are imported in index.tsx.
+ */
 body {
     margin: 0;
-    font-family: 'Open Sans Light', sans-serif;
+    background: #F3F4F6;
+    color: #0D1321;
+    font-family: 'Geist Variable', 'Geist', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+    font-size: 14px;
+    line-height: 1.45;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
 }
 
 code {
-    font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+    font-family: 'Geist Mono Variable', 'Geist Mono', ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
 }
 
+/* Visible keyboard focus everywhere */
+:focus-visible {
+    outline: 2px solid #2A4C7D;
+    outline-offset: 2px;
+}
 
+@media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+        animation-duration: 1ms !important;
+        animation-delay: 0ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 1ms !important;
+        scroll-behavior: auto !important;
+    }
+}
