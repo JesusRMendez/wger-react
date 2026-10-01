@@ -1,9 +1,27 @@
 import { Routine } from "@/components/Routines/models/Routine";
+import { RoutineDayData } from "@/components/Routines/models/RoutineDayData";
 import { LogEntryForm } from "@/components/Routines/models/WorkoutLog";
 import { DateTime } from "luxon";
 
 export interface SessionLogsFormValues {
     logs: LogEntryForm[],
+}
+
+/**
+ * The day data a day is planned with: the entry of the date's iteration, or
+ * the current iteration's one when the date is not part of the sequence.
+ */
+export function dayDataFor(routine: Routine, dayId: number, date: Date): {
+    dayDataList: RoutineDayData[],
+    hasNoIterationData: boolean,
+} {
+    const iterationDayData = routine.getDayData(dayId, date) ?? [];
+    const hasNoIterationData = iterationDayData.length === 0;
+    const dayDataList = hasNoIterationData
+        ? routine.dayDataCurrentIteration.filter(dayData => dayData.day?.id === dayId)
+        : iterationDayData;
+
+    return { dayDataList, hasNoIterationData };
 }
 
 /**
@@ -15,11 +33,7 @@ export function plannedLogs(routine: Routine, dayId: number, date: Date): {
     logs: LogEntryForm[],
     iteration: number | null,
 } {
-    const iterationDayData = routine.getDayData(dayId, date) ?? [];
-    const hasNoIterationData = iterationDayData.length === 0;
-    const dayDataList = hasNoIterationData
-        ? routine.dayDataCurrentIteration.filter(dayData => dayData.day?.id === dayId)
-        : iterationDayData;
+    const { dayDataList, hasNoIterationData } = dayDataFor(routine, dayId, date);
 
     const logs: LogEntryForm[] = [];
     for (const dayData of dayDataList) {
@@ -46,7 +60,7 @@ export function plannedLogs(routine: Routine, dayId: number, date: Date): {
         }
     }
 
-    return { logs, iteration: hasNoIterationData ? null : iterationDayData[0].iteration };
+    return { logs, iteration: hasNoIterationData ? null : dayDataList[0].iteration };
 }
 
 interface PayloadContext {
@@ -55,12 +69,14 @@ interface PayloadContext {
     iteration: number | null,
     dayId: number,
     routineId: number,
+    /** Keep logs without any value as well, e.g. a set trained until failure with no number to enter */
+    includeEmpty?: boolean,
 }
 
 /** The logs the user filled in, as the server takes them; untouched sets are left out */
-export function logsPayload(logs: LogEntryForm[], { date, sessionId, iteration, dayId, routineId }: PayloadContext) {
+export function logsPayload(logs: LogEntryForm[], { date, sessionId, iteration, dayId, routineId, includeEmpty = false }: PayloadContext) {
     return logs
-        .filter(l => l.rir !== '' || l.repetitions !== '' || l.weight !== '')
+        .filter(l => includeEmpty || l.rir !== '' || l.repetitions !== '' || l.weight !== '')
         .map(l => ({
                 date: date.toISO(),
                 session: sessionId,
