@@ -1,3 +1,5 @@
+import { AgentConfigPage, AiAccessPage } from "@/components/AiAdmin";
+import { AiSettingsPage, CoachPage, GoalsPage } from "@/components/Coach";
 import { ConfigurableDashboard } from "@/components/Dashboard/ConfigurableDashboard";
 import { ExerciseOverview } from "@/components/Exercises";
 import { MeasurementCategoryOverview } from "@/components/Measurements";
@@ -124,6 +126,15 @@ export const WgerRoutes = () => {
                 <Route path="dashboard">
                     <Route index element={<ConfigurableDashboard />} />
                     <Route path="" element={<ConfigurableDashboard />} />
+                </Route>
+                <Route path="coach">
+                    <Route index element={<CoachPage />} />
+                    <Route path="goals" element={<GoalsPage />} />
+                    <Route path="settings" element={<AiSettingsPage />} />
+                    <Route path="admin">
+                        <Route path="access" element={<AiAccessPage />} />
+                        <Route path="config" element={<AgentConfigPage />} />
+                    </Route>
                 </Route>
                 <Route path="trophies">
                     <Route index element={<TrophiesDetail />} />

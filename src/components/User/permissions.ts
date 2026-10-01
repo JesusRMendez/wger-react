@@ -10,4 +10,7 @@ export enum WgerPermissions {
     ADD_VIDEO = 'exercises.add_exercisevideo',
     EDIT_VIDEO = 'exercises.change_exercisevideo',
     DELETE_VIDEO = 'exercises.delete_exercisevideo',
+
+    // AI coach
+    MANAGE_AI_COACH_ACCESS = 'core.manage_ai_coach_access',
 }

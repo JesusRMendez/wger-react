@@ -45,7 +45,12 @@ export {
 } from "./models/WorkoutSession";
 
 // Query hooks
-export { useActiveRoutineQuery, useSessionsQuery } from "./queries";
+export {
+    useActiveRoutineQuery,
+    useFetchRoutineRepUnitsQuery,
+    useFetchRoutineWeighUnitsQuery,
+    useSessionsQuery
+} from "./queries";
 
 // Widgets
 export { SetConfigDataDetails } from "./widgets/RoutineDetailsCard";
