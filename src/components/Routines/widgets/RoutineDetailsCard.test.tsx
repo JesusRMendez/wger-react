@@ -59,4 +59,28 @@ describe("Test the RoutineDetail component", () => {
         expect(screen.getByText('Pull day')).toBeInTheDocument();
         expect(screen.getByText('routines.restDay')).toBeInTheDocument();
     });
+
+    test('links the days with exercises to the gym mode', async () => {
+
+        // Act
+        render(
+            <QueryClientProvider client={queryClient}>
+                <MemoryRouter initialEntries={['/routine/101']}>
+                    <Routes>
+                        <Route path="routine/:routineId" element={<RoutineDetailsCard />} />
+                    </Routes>
+                </MemoryRouter>
+            </QueryClientProvider>
+        );
+
+        // Assert: the leg day has exercises, the rest day (and the empty pull day) don't
+        const links = screen.getAllByRole('link', { name: 'routines.gym.start' });
+        expect(links).toHaveLength(1);
+        expect(links[0]).toHaveAttribute('href', '/en/routine/101/day/5/gym');
+
+        // ... and to the guided routine, next to it
+        const guided = screen.getAllByRole('link', { name: 'routines.guided.start' });
+        expect(guided).toHaveLength(1);
+        expect(guided[0]).toHaveAttribute('href', '/en/routine/101/day/5/guided');
+    });
 });

@@ -6,7 +6,7 @@ import { makeLink, WgerLink } from "@/core/lib/url";
 
 export const TrainingSubMenu = () => {
 
-    const { i18n } = useTranslation();
+    const { t, i18n } = useTranslation();
     const [anchorElRoutine, setAnchorElRoutine] = React.useState<null | HTMLElement>(null);
 
     return (
@@ -36,6 +36,9 @@ export const TrainingSubMenu = () => {
                 </MenuItem>
                 <MenuItem component={Link} to={makeLink(WgerLink.CALENDAR, i18n.language)}>
                     Calendar
+                </MenuItem>
+                <MenuItem component={Link} to={makeLink(WgerLink.TRAINING_LOCATIONS, i18n.language)}>
+                    {t('locations.title')}
                 </MenuItem>
             </Menu>
         </>

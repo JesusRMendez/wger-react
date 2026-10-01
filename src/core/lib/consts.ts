@@ -73,6 +73,22 @@ export enum QueryKey {
     TROPHIES = 'trophies',
     USER_TROPHIES = 'user-trophies',
     USER_TROPHY_PROGRESSION = 'user-trophy-progression',
+
+    // AI coach
+    COACH_USAGE = 'coach-usage',
+    COACH_ACCESS = 'coach-access',
+    COACH_GOALS = 'coach-goals',
+    COACH_INDICATORS = 'coach-indicators',
+    COACH_RECOMMENDATIONS = 'coach-recommendations',
+    COACH_MEMORY = 'coach-memory',
+    COACH_LOCATIONS = 'coach-locations',
+    AI_PROVIDER = 'ai-provider',
+    AI_CONFIG = 'ai-config',
+    AI_ACCESS_ADMIN = 'ai-access-admin',
+    // Training locations
+    TRAINING_LOCATIONS = 'training-locations',
+    LOCATION_ZONES = 'location-zones',
+    ZONE_ORDER = 'zone-order',
 }
 
 /*

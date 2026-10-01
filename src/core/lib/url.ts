@@ -68,6 +68,8 @@ export enum WgerLink {
     ROUTINE_ICAL,
     ROUTINE_COPY,
     ROUTINE_ADD_LOG,
+    ROUTINE_GYM_MODE,
+    ROUTINE_GUIDED_MODE,
 
     TEMPLATE_DETAIL,
     PRIVATE_TEMPLATE_OVERVIEW,
@@ -98,6 +100,14 @@ export enum WgerLink {
     // Other
     CALENDAR,
     TROPHIES,
+
+    // AI coach
+    COACH,
+    COACH_GOALS,
+    COACH_SETTINGS,
+    COACH_ADMIN_ACCESS,
+    COACH_ADMIN_CONFIG,
+    TRAINING_LOCATIONS,
 }
 
 type UrlParams = { id: number | string, id2?: number | string, slug?: string, date?: string };
@@ -140,6 +150,10 @@ export function makeLink(link: WgerLink, language?: string, params?: UrlParams):
             return `/${language}/routine/${params!.id}/statistics`;
         case WgerLink.ROUTINE_ADD_LOG:
             return `/${language}/routine/${params!.id}/day/${params!.id2}/add-logs`;
+        case WgerLink.ROUTINE_GYM_MODE:
+            return `/${language}/routine/${params!.id}/day/${params!.id2}/gym`;
+        case WgerLink.ROUTINE_GUIDED_MODE:
+            return `/${language}/routine/${params!.id}/day/${params!.id2}/guided`;
         case WgerLink.CALENDAR:
             return `/${language}/routine/calendar`;
         // Templates
@@ -193,6 +207,20 @@ export function makeLink(link: WgerLink, language?: string, params?: UrlParams):
 
         case WgerLink.TROPHIES:
             return `/${language}/trophies`;
+
+        // AI coach
+        case WgerLink.COACH:
+            return `/${language}/coach`;
+        case WgerLink.COACH_GOALS:
+            return `/${language}/coach/goals`;
+        case WgerLink.COACH_SETTINGS:
+            return `/${language}/coach/settings`;
+        case WgerLink.COACH_ADMIN_ACCESS:
+            return `/${language}/coach/admin/access`;
+        case WgerLink.COACH_ADMIN_CONFIG:
+            return `/${language}/coach/admin/config`;
+        case WgerLink.TRAINING_LOCATIONS:
+            return `/${language}/user/locations`;
 
         // Dashboard
         case WgerLink.DASHBOARD:

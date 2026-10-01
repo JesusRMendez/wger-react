@@ -5,6 +5,8 @@
  * internal sub-paths.
  */
 export { RoutineAdd } from "./screens/Detail/RoutineAdd";
+export { GuidedMode } from "./screens/Detail/GuidedMode";
+export { GymMode } from "./screens/Detail/GymMode";
 export { RoutineDetail } from "./screens/Detail/RoutineDetail";
 export { RoutineDetailsTable } from "./screens/Detail/RoutineDetailsTable";
 export { RoutineEdit } from "./screens/Detail/RoutineEdit";
@@ -44,7 +46,12 @@ export {
 } from "./models/WorkoutSession";
 
 // Query hooks
-export { useActiveRoutineQuery, useSessionsQuery } from "./queries";
+export {
+    useActiveRoutineQuery,
+    useFetchRoutineRepUnitsQuery,
+    useFetchRoutineWeighUnitsQuery,
+    useSessionsQuery
+} from "./queries";
 
 // Widgets
 export { SetConfigDataDetails } from "./widgets/RoutineDetailsCard";
