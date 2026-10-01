@@ -99,6 +99,13 @@ export enum WgerLink {
     // Other
     CALENDAR,
     TROPHIES,
+
+    // AI coach
+    COACH,
+    COACH_GOALS,
+    COACH_SETTINGS,
+    COACH_ADMIN_ACCESS,
+    COACH_ADMIN_CONFIG,
 }
 
 type UrlParams = { id: number | string, id2?: number | string, slug?: string, date?: string };
@@ -196,6 +203,18 @@ export function makeLink(link: WgerLink, language?: string, params?: UrlParams):
 
         case WgerLink.TROPHIES:
             return `/${language}/trophies`;
+
+        // AI coach
+        case WgerLink.COACH:
+            return `/${language}/coach`;
+        case WgerLink.COACH_GOALS:
+            return `/${language}/coach/goals`;
+        case WgerLink.COACH_SETTINGS:
+            return `/${language}/coach/settings`;
+        case WgerLink.COACH_ADMIN_ACCESS:
+            return `/${language}/coach/admin/access`;
+        case WgerLink.COACH_ADMIN_CONFIG:
+            return `/${language}/coach/admin/config`;
 
         // Dashboard
         case WgerLink.DASHBOARD:

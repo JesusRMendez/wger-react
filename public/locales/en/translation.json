@@ -520,5 +520,183 @@
     },
     "calendar": "Calendar",
     "entries": "Entries",
-    "no_entries_for_day": "No entries for this day"
+    "no_entries_for_day": "No entries for this day",
+    "coach": {
+        "title": "AI coach",
+        "menu": {
+            "title": "Coach"
+        },
+        "goalsLink": "Goals and progress",
+        "settingsLink": "My AI settings",
+        "notes": "Notes",
+        "generate": "Generate proposal",
+        "generating": "Generating...",
+        "recommended": "recommended",
+        "tabs": {
+            "chat": "Chat",
+            "workout": "Workout plan",
+            "meal": "Meal plan"
+        },
+        "mode": {
+            "server": "Server AI",
+            "byo": "Own AI",
+            "none": "AI not available",
+            "configure": "Set up your own AI"
+        },
+        "usage": {
+            "withLimit": "{{used}} of {{limit}} tokens used this month",
+            "noLimit": "{{used}} tokens used this month"
+        },
+        "errors": {
+            "notAvailable": "The AI coach is not available for your account. Ask an administrator for access or add your own API key.",
+            "openSettings": "Open AI settings",
+            "quotaExceeded": "Your monthly AI token limit has been reached. Try again next month or ask an administrator to raise the limit.",
+            "forbidden": "You are not allowed to do this.",
+            "generic": "Something went wrong. Please try again."
+        },
+        "chat": {
+            "empty": "Ask your coach anything about your training, nutrition or progress.",
+            "thinking": "The coach is thinking...",
+            "placeholder": "Message",
+            "send": "Send"
+        },
+        "workout": {
+            "daysPerWeek": "Days per week",
+            "minutes": "Minutes per session",
+            "location": "Training location",
+            "defaultLocation": "Default location",
+            "goal": "Goal",
+            "noGoal": "No specific goal",
+            "weeks_one": "{{count}} week",
+            "weeks_other": "{{count}} weeks",
+            "orderRationale": "Why this order",
+            "rest": "rest {{seconds}} s",
+            "zone": "zone: {{zone}}",
+            "apply": "Apply and create routine"
+        },
+        "meal": {
+            "kcalTarget": "Calorie target (kcal)",
+            "mealsPerDay": "Meals per day",
+            "preferences": "Preferences",
+            "totals": "Total: {{kcal}} kcal, {{protein}} g protein, {{carbs}} g carbohydrates, {{fat}} g fat",
+            "apply": "Apply and create nutrition plan",
+            "applied": "Nutrition plan created.",
+            "skipped_one": "{{count}} item without a matching ingredient was skipped.",
+            "skipped_other": "{{count}} items without a matching ingredient were skipped.",
+            "open": "Open plan"
+        },
+        "memory": {
+            "title": "What the coach remembers",
+            "description": "Notes the coach takes into account, e.g. injuries or preferences.",
+            "text": "Note",
+            "category": "Category",
+            "empty": "Nothing remembered yet.",
+            "categories": {
+                "preference": "Preference",
+                "behavior": "Behavior",
+                "constraint": "Constraint",
+                "injury": "Injury"
+            }
+        },
+        "goalsPage": {
+            "title": "Goals and progress"
+        },
+        "goals": {
+            "title": "Goals",
+            "add": "Add goal",
+            "edit": "Edit goal",
+            "empty": "No goals for this period.",
+            "name": "Title",
+            "kind": "Type",
+            "period": "Period",
+            "target": "Target",
+            "unit": "Unit",
+            "start": "Start",
+            "end": "End",
+            "status": "Status",
+            "progressText": "{{current}} of {{target}} {{unit}}",
+            "kinds": {
+                "strength": "Strength",
+                "body_weight": "Body weight",
+                "body_fat": "Body fat",
+                "habit": "Habit",
+                "nutrition": "Nutrition",
+                "endurance": "Endurance",
+                "steps": "Steps"
+            },
+            "periods": {
+                "weekly": "Weekly",
+                "monthly": "Monthly",
+                "quarterly": "Quarterly",
+                "plan": "Plan"
+            },
+            "statuses": {
+                "active": "Active",
+                "achieved": "Achieved",
+                "missed": "Missed",
+                "paused": "Paused"
+            }
+        },
+        "indicators": {
+            "title": "Indicators",
+            "days_one": "{{count}} day",
+            "days_other": "{{count}} days",
+            "empty": "Not enough data yet.",
+            "target": "Target: {{target}}",
+            "trend": {
+                "up": "Trending up",
+                "down": "Trending down",
+                "flat": "Flat"
+            }
+        },
+        "dataQuality": {
+            "title": "Data quality",
+            "score": "Score: {{score}} / 100. More complete data gives better advice."
+        },
+        "recommendations": {
+            "title": "Recommendations",
+            "currentPhase": "Week {{week}}: {{phase}} phase",
+            "phases": {
+                "adaptation": "Adaptation",
+                "progression": "Progression",
+                "deload": "Deload",
+                "consolidation": "Consolidation"
+            }
+        },
+        "settings": {
+            "title": "My AI",
+            "description": "Use your own AI account. Your key is stored on the server and is never shown again.",
+            "provider": "Provider",
+            "providerNone": "None",
+            "model": "Model",
+            "apiKey": "API key",
+            "keyStored": "A key is stored (ends in {{last4}}). Enter a new one to replace it.",
+            "keyWriteOnly": "The key is write-only.",
+            "clearKey": "Remove stored key",
+            "saved": "Saved."
+        },
+        "admin": {
+            "accessTitle": "AI access",
+            "configTitle": "AI agent configuration",
+            "search": "Search users",
+            "enableSelected": "Enable server AI for selection",
+            "disableSelected": "Disable server AI for selection",
+            "selectAll": "Select all",
+            "select": "Select {{user}}",
+            "user": "User",
+            "serverAi": "Server AI",
+            "tokenLimit": "Monthly token limit",
+            "limitFor": "Token limit for {{user}}",
+            "unlimited": "Unlimited",
+            "effectiveMode": "Effective mode",
+            "enabled": "Enabled",
+            "disabled": "Disabled",
+            "serverKey": "Server API key",
+            "keyConfigured": "Configured",
+            "keyMissing": "Not configured",
+            "systemPrompt": "System prompt",
+            "skills": "Skills",
+            "connectors": "Data connectors"
+        }
+    }
 }

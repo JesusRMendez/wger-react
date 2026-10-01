@@ -1,5 +1,6 @@
 import { AppBar, Toolbar, Typography } from "@mui/material";
 import { BodyWeightSubMenu } from "@/app/layout/Header/SubMenus/BodyWeightSubMenu";
+import { CoachSubMenu } from "@/app/layout/Header/SubMenus/CoachSubMenu";
 import { MeasurementsSubMenu } from "@/app/layout/Header/SubMenus/MeasurementsSubMenu";
 import { NutritionSubMenu } from "@/app/layout/Header/SubMenus/NutritionSubMenu";
 import { TrainingSubMenu } from "@/app/layout/Header/SubMenus/TrainingSubMenu";
@@ -19,6 +20,7 @@ export const Header = () => {
                 <BodyWeightSubMenu />
                 <MeasurementsSubMenu />
                 <NutritionSubMenu />
+                <CoachSubMenu />
 
 
             </Toolbar>
