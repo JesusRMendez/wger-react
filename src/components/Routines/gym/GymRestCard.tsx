@@ -13,11 +13,12 @@ import {
     CardContent,
     CardHeader,
     FormControlLabel,
-    LinearProgress,
     Stack,
     Switch,
     Typography
 } from "@mui/material";
+import { Ring } from "@/core/ui/Atlas";
+import { atlas, motion, numeric } from "@/theme";
 import React from "react";
 import { useTranslation } from "react-i18next";
 
@@ -39,22 +40,40 @@ export const GymRestCard = (props: {
     const remaining = restRemaining(rest, props.now);
     const isOver = rest !== null && remaining === 0;
     const progress = rest === null ? 0 : 100 * (1 - remaining / rest.duration);
+    const warning = rest !== null && !isOver && remaining <= 20;
     const restedExercise = findExercise(props.state, rest?.exerciseKey ?? null);
 
     return <Card>
         <CardHeader title={t('routines.restTime')} />
         <CardContent>
             <Stack spacing={2}>
-                <Typography
-                    variant="h2"
-                    component="p"
-                    data-testid="rest-countdown"
-                    sx={{ fontVariantNumeric: 'tabular-nums', textAlign: 'center' }}
-                >
-                    {formatClock(remaining)}
-                </Typography>
-
-                <LinearProgress variant="determinate" value={progress} aria-hidden />
+                <Stack sx={{ alignItems: 'center' }}>
+                    <Ring
+                        value={rest === null ? 0 : progress / 100}
+                        size={160}
+                        thickness={10}
+                        duration={1000}
+                        color={isOver ? atlas.ok : warning ? atlas.warn : atlas.ink}
+                    >
+                        <Typography
+                            component="p"
+                            data-testid="rest-countdown"
+                            aria-live="off"
+                            sx={{
+                                ...numeric,
+                                m: 0,
+                                fontSize: remaining <= 5 && rest !== null && !isOver ? 56 : 40,
+                                fontWeight: 600,
+                                letterSpacing: '-0.05em',
+                                lineHeight: 1,
+                                color: isOver ? atlas.okText : warning ? atlas.warnText : atlas.ink,
+                                transition: `font-size 200ms ${motion.easing}`,
+                            }}
+                        >
+                            {formatClock(remaining)}
+                        </Typography>
+                    </Ring>
+                </Stack>
 
                 <Typography variant="body2" sx={{ textAlign: 'center' }}>
                     {rest === null && t('routines.gym.noRestRunning')}
