@@ -9,9 +9,11 @@ import { isSameDay } from "@/core/lib/date";
 import { makeLink, WgerLink } from "@/core/lib/url";
 import { RenderLoadingQuery } from "@/core/ui/Widgets/RenderLoadingQuery";
 import { Addchart } from "@mui/icons-material";
+import PlayArrowIcon from '@mui/icons-material/PlayArrow';
 import TodayIcon from '@mui/icons-material/Today';
 import {
     Box,
+    Button,
     Card,
     CardContent,
     CardHeader,
@@ -232,15 +234,27 @@ export const DayDetailsCard = (props: {
                 sx={{ bgcolor: theme.palette.grey.A200 }}
                 action={readOnly
                     ? null
-                    : <Tooltip title={t('routines.addWeightLog')}>
-                        <IconButton
-                            href={makeLink(WgerLink.ROUTINE_ADD_LOG, i18n.language, {
+                    : <Stack direction="row" sx={{ alignItems: "center" }}>
+                        {(slotData.length > 0 || props.day.slots.length > 0) && <Button
+                            size="small"
+                            variant="contained"
+                            startIcon={<PlayArrowIcon />}
+                            href={makeLink(WgerLink.ROUTINE_GYM_MODE, i18n.language, {
                                 id: props.routineId,
                                 id2: props.day.id!
                             })}>
-                            <Addchart />
-                        </IconButton>
-                    </Tooltip>}
+                            {t('routines.gym.start')}
+                        </Button>}
+                        <Tooltip title={t('routines.addWeightLog')}>
+                            <IconButton
+                                href={makeLink(WgerLink.ROUTINE_ADD_LOG, i18n.language, {
+                                    id: props.routineId,
+                                    id2: props.day.id!
+                                })}>
+                                <Addchart />
+                            </IconButton>
+                        </Tooltip>
+                    </Stack>}
                 title={<Typography variant={"h5"}>{getDayName(props.day)}</Typography>}
                 avatar={isToday ? <TodayIcon /> : null}
                 subheader={subheader}

@@ -3,6 +3,7 @@ import { ExerciseOverview } from "@/components/Exercises";
 import { MeasurementCategoryOverview } from "@/components/Measurements";
 import { BmiCalculator, NutritionDiaryOverview, PlanDetail, PlansOverview } from "@/components/Nutrition";
 import {
+    GymMode,
     PrivateTemplateOverview,
     PublicTemplateOverview,
     RoutineAdd,
@@ -54,6 +55,7 @@ export const WgerRoutes = () => {
                     <Route path=":routineId">
                         <Route path="day/:dayId">
                             <Route path="add-logs" element={<SessionAdd />} />
+                            <Route path="gym" element={<GymMode />} />
                         </Route>
                         <Route path="edit">
                             <Route index element={<RoutineEdit />} />

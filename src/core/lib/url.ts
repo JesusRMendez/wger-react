@@ -68,6 +68,7 @@ export enum WgerLink {
     ROUTINE_ICAL,
     ROUTINE_COPY,
     ROUTINE_ADD_LOG,
+    ROUTINE_GYM_MODE,
 
     TEMPLATE_DETAIL,
     PRIVATE_TEMPLATE_OVERVIEW,
@@ -140,6 +141,8 @@ export function makeLink(link: WgerLink, language?: string, params?: UrlParams):
             return `/${language}/routine/${params!.id}/statistics`;
         case WgerLink.ROUTINE_ADD_LOG:
             return `/${language}/routine/${params!.id}/day/${params!.id2}/add-logs`;
+        case WgerLink.ROUTINE_GYM_MODE:
+            return `/${language}/routine/${params!.id}/day/${params!.id2}/gym`;
         case WgerLink.CALENDAR:
             return `/${language}/routine/calendar`;
         // Templates
