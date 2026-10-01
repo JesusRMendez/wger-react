@@ -587,6 +587,7 @@ const components = (theme: Theme): ThemeOptions['components'] => ({
                 padding: '0 14px',
                 transition: `background-color ${motion.color}ms ${motion.easing}, color ${motion.color}ms ${motion.easing}, box-shadow ${motion.color}ms ${motion.easing}`,
                 '&:hover': { backgroundColor: 'transparent', color: atlas.ink },
+                '&:active': { transform: `scale(${motion.pressScale})` },
                 '&.Mui-selected': {
                     color: atlas.ink,
                     backgroundColor: atlas.surface,
