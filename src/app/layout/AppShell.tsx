@@ -300,7 +300,7 @@ export const AppShell = ({ children }: { children: ReactNode }) => {
                 <Box
                     key={pathname}
                     sx={{
-                        animation: `${rise} 420ms ${motion.easing} both`,
+                        animation: `${rise} 420ms ${motion.easing} backwards`,
                         '@media (prefers-reduced-motion: reduce)': { animation: 'none' },
                     }}
                 >
