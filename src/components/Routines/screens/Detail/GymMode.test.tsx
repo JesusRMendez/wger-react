@@ -1,4 +1,5 @@
 import { useLanguageQuery } from "@/components/Exercises";
+import { useLocationsQuery, useZoneOrderQuery } from "@/components/Locations/queries";
 import {
     useAddRoutineLogsQuery,
     useAddSessionQuery,
@@ -24,6 +25,7 @@ import translations from "../../../../../public/locales/en/translation.json";
 
 vi.mock("@/components/Exercises/queries");
 vi.mock("@/components/Routines/queries");
+vi.mock("@/components/Locations/queries");
 
 const day = new Day({ id: 5, routineId: 1, order: 1, name: 'Leg day' });
 
@@ -83,6 +85,8 @@ describe('GymMode', () => {
         (useRoutineDetailQuery as Mock).mockReturnValue({ isLoading: false, isSuccess: true, data: makeRoutine() });
         (useRoutineLogQuery as Mock).mockReturnValue({ isLoading: false, isSuccess: true, data: testWorkoutLogs });
         (useLanguageQuery as Mock).mockReturnValue({ isLoading: false, isSuccess: true, data: testLanguages });
+        (useLocationsQuery as Mock).mockReturnValue({ isSuccess: true, isLoading: false, data: [] });
+        (useZoneOrderQuery as Mock).mockReturnValue({ isSuccess: false, isLoading: false, data: undefined });
         addSession.mockImplementation(async (session: WorkoutSession) =>
             new WorkoutSession({ ...session, id: 'session-uuid-1' }));
         addLogs.mockResolvedValue([]);

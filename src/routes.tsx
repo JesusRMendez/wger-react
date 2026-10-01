@@ -2,9 +2,11 @@ import { AgentConfigPage, AiAccessPage } from "@/components/AiAdmin";
 import { AiSettingsPage, CoachPage, GoalsPage } from "@/components/Coach";
 import { ConfigurableDashboard } from "@/components/Dashboard/ConfigurableDashboard";
 import { ExerciseOverview } from "@/components/Exercises";
+import { LocationsPage } from "@/components/Locations";
 import { MeasurementCategoryOverview } from "@/components/Measurements";
 import { BmiCalculator, NutritionDiaryOverview, PlanDetail, PlansOverview } from "@/components/Nutrition";
 import {
+    GuidedMode,
     GymMode,
     PrivateTemplateOverview,
     PublicTemplateOverview,
@@ -58,6 +60,7 @@ export const WgerRoutes = () => {
                         <Route path="day/:dayId">
                             <Route path="add-logs" element={<SessionAdd />} />
                             <Route path="gym" element={<GymMode />} />
+                            <Route path="guided" element={<GuidedMode />} />
                         </Route>
                         <Route path="edit">
                             <Route index element={<RoutineEdit />} />
@@ -122,6 +125,7 @@ export const WgerRoutes = () => {
                 <Route path="login" element={<Login />} />
                 <Route path="user">
                     <Route path="preferences" element={<Preferences />} />
+                    <Route path="locations" element={<LocationsPage />} />
                 </Route>
                 <Route path="dashboard">
                     <Route index element={<ConfigurableDashboard />} />

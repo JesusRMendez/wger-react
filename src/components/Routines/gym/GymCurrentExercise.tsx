@@ -13,7 +13,9 @@ import {
     isAllDone,
     isComplete,
     isOutOfOrder,
+    hasLoggableValue,
     isTimeKind,
+    needsRepetitionCount,
     parseNumberInput,
     PreviousLike,
     repetitionUnitKind,
@@ -22,6 +24,7 @@ import {
     valueToSeconds,
     weightUnitKind,
 } from "@/components/Routines/gym/gymSession";
+import { Abbr } from "@/core/glossary";
 import { REP_UNIT_REPETITIONS } from "@/core/lib/consts";
 import DeleteIcon from "@mui/icons-material/DeleteOutlined";
 import {
@@ -78,6 +81,11 @@ const GymSetInputs = (props: {
     const parsedRepetitions = parseNumberInput(repetitions);
     const parsedWeight = parseNumberInput(weight);
     const isValid = parsedRepetitions !== undefined && parsedWeight !== undefined;
+    // Until failure and max reps are only worth something with the count that was reached, and
+    // any set needs a number to be saved at all
+    const missingCount = needsRepetitionCount(exercise.repetitionUnit) && !parsedRepetitions && parsedRepetitions !== 0;
+    const missingValue = isValid && !hasLoggableValue(parsedRepetitions ?? null, parsedWeight ?? null);
+    const canLog = isValid && !missingCount && !missingValue;
 
     // The plain repetitions are labelled as such, any other unit is named
     const repLabel = repKind === 'repetitions' || repKind === 'failure' ? t('server.repetitions') : repUnitName;
@@ -118,8 +126,10 @@ const GymSetInputs = (props: {
                 label={repLabel}
                 value={repetitions}
                 onChange={event => setRepetitions(event.target.value)}
-                error={parsedRepetitions === undefined}
-                helperText={parsedRepetitions === undefined ? t('forms.enterNumber') : undefined}
+                error={parsedRepetitions === undefined || missingCount}
+                helperText={parsedRepetitions === undefined
+                    ? t('forms.enterNumber')
+                    : missingCount ? t('routines.gym.enterRepsAchieved') : undefined}
                 slotProps={{
                     input: {
                         endAdornment: showRepUnit
@@ -163,10 +173,14 @@ const GymSetInputs = (props: {
             </Button>
         </Stack>}
 
+        {missingValue && !missingCount && <Typography variant="body2" color="warning.main">
+            {t('routines.gym.enterValue')}
+        </Typography>}
+
         <Button
             variant="contained"
             size="large"
-            disabled={!isValid}
+            disabled={!canLog}
             onClick={() => {
                 props.unlock();
                 props.onDone(parsedRepetitions ?? null, parsedWeight ?? null);
@@ -264,8 +278,12 @@ export const GymCurrentExercise = (props: {
                         <Typography>
                             {describePlannedSet(exercise) || t('routines.gym.noPlannedValues')}
                             {exercise.type !== 'normal'
-                                && <Chip label={exercise.type} color="info" size="small" sx={{ ml: 1 }} />}
+                                && <Chip label={<Abbr term={exercise.type}>{exercise.type}</Abbr>} color="info"
+                                         size="small" sx={{ ml: 1 }} />}
                         </Typography>
+                        {exercise.rir !== null && <Typography variant="body2">
+                            <Abbr term="RIR" />: {exercise.rir}
+                        </Typography>}
                         {exercise.comment !== '' && <Typography variant="caption">{exercise.comment}</Typography>}
                     </Box>
 

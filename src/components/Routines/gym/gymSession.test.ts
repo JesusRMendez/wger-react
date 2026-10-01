@@ -13,6 +13,9 @@ import {
     formatWeight,
     gymReducer,
     GymState,
+    hasLoggableValue,
+    isMaxRepsUnit,
+    needsRepetitionCount,
     isAllDone,
     isComplete,
     isOutOfOrder,
@@ -712,5 +715,55 @@ describe('helpers', () => {
 
     test('the name of an exercise comes from its translation', () => {
         expect(exerciseName(gymSquats)).toBe('Squats');
+    });
+});
+
+describe('values that have to be entered', () => {
+    test('recognizes the max reps unit by its name', () => {
+        expect(isMaxRepsUnit({ id: 7, name: 'Max Reps' })).toBe(true);
+        expect(isMaxRepsUnit({ id: 7, name: 'max_reps' })).toBe(true);
+        expect(isMaxRepsUnit(gymRepUnitRepetitions)).toBe(false);
+        expect(isMaxRepsUnit(null)).toBe(false);
+    });
+
+    test('until failure and max reps need the count that was reached', () => {
+        expect(needsRepetitionCount(gymRepUnitFailure)).toBe(true);
+        expect(needsRepetitionCount({ id: 7, name: 'Max Reps' })).toBe(true);
+        expect(needsRepetitionCount(gymRepUnitRepetitions)).toBe(false);
+        expect(needsRepetitionCount(gymRepUnitSeconds)).toBe(false);
+        expect(needsRepetitionCount(null)).toBe(false);
+    });
+
+    test('a set needs repetitions or a weight', () => {
+        expect(hasLoggableValue(null, null)).toBe(false);
+        expect(hasLoggableValue(0, null)).toBe(true);
+        expect(hasLoggableValue(null, 20)).toBe(true);
+        expect(hasLoggableValue(8, 20)).toBe(true);
+    });
+});
+
+describe('dropping sets', () => {
+    test('takes sets out of the plan but never below what is done', () => {
+        let state = startState();
+        state = gymReducer(state, { type: 'logSet', repetitions: 5, weight: 80, now: 1 });
+        state = gymReducer(state, { type: 'dropSets', drops: [{ key: gymSquats.key, sets: 5 }, { key: gymTimed.key, sets: 1 }] });
+
+        expect(findExercise(state, gymSquats.key)!.nrOfSets).toBe(1);
+        expect(findExercise(state, gymTimed.key)!.nrOfSets).toBe(gymTimed.nrOfSets - 1);
+    });
+
+    test('moves on when the current exercise is gone', () => {
+        let state = startState();
+        state = gymReducer(state, { type: 'dropSets', drops: [{ key: gymSquats.key, sets: 2 }] });
+
+        expect(state.currentKey).toBe(gymBenchPress.key);
+        expect(progressOf(state).total).toBe(3);
+    });
+
+    test('ignores empty drops', () => {
+        const state = startState();
+        const next = gymReducer(state, { type: 'dropSets', drops: [{ key: gymSquats.key, sets: 0 }] });
+
+        expect(next.exercises.map(e => e.nrOfSets)).toEqual(state.exercises.map(e => e.nrOfSets));
     });
 });

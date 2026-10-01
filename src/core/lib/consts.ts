@@ -85,6 +85,10 @@ export enum QueryKey {
     AI_PROVIDER = 'ai-provider',
     AI_CONFIG = 'ai-config',
     AI_ACCESS_ADMIN = 'ai-access-admin',
+    // Training locations
+    TRAINING_LOCATIONS = 'training-locations',
+    LOCATION_ZONES = 'location-zones',
+    ZONE_ORDER = 'zone-order',
 }
 
 /*

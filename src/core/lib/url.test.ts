@@ -226,4 +226,9 @@ describe("test the getAcceptLanguage helper", () => {
         i18n.languages = ["de-DE", "fr-FR"];
         expect(getAcceptLanguage()).toBe("de-DE, fr-FR");
     });
+
+    test('links of the guided routine and the training locations', () => {
+        expect(makeLink(WgerLink.ROUTINE_GUIDED_MODE, 'en', { id: 3, id2: 9 })).toBe('/en/routine/3/day/9/guided');
+        expect(makeLink(WgerLink.TRAINING_LOCATIONS, 'es')).toBe('/es/user/locations');
+    });
 });
