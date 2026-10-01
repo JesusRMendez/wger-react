@@ -7,7 +7,6 @@ import {
     CardContent,
     Chip,
     IconButton,
-    LinearProgress,
     Stack,
     Tab,
     Tabs,
@@ -17,6 +16,8 @@ import React, { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Goal, GOAL_PERIODS, GoalPeriod } from "@/components/Coach/models";
 import { useDeleteGoalMutation, useGoalsQuery } from "@/components/Coach/queries";
+import { Numeric, Ring } from "@/core/ui/Atlas";
+import { atlas } from "@/theme";
 import { GoalForm } from "@/components/Coach/widgets/GoalForm";
 
 export const GoalsSection = () => {
@@ -44,10 +45,20 @@ export const GoalsSection = () => {
 
         {goals.length === 0 && !query.isLoading && <Typography color="text.secondary">{t('coach.goals.empty')}</Typography>}
 
-        {goals.map(goal => <Card key={goal.id} variant="outlined" data-testid={`goal-${goal.id}`}>
+        {goals.map(goal => <Card key={goal.id} data-testid={`goal-${goal.id}`}>
             <CardContent>
-                <Stack direction="row" sx={{ justifyContent: 'space-between', alignItems: 'center' }}>
-                    <Box>
+                <Stack direction="row" spacing={2.5} sx={{ justifyContent: 'space-between', alignItems: 'center' }}>
+                    <Ring
+                        progressbar
+                        label={goal.title}
+                        value={goal.progress_pct / 100}
+                        size={84}
+                        thickness={8}
+                        color={goal.status === 'achieved' ? atlas.ok : goal.status === 'missed' ? atlas.accent : atlas.brand}
+                    >
+                        <Numeric size={18}>{goal.progress_pct}%</Numeric>
+                    </Ring>
+                    <Box sx={{ flex: 1, minWidth: 0 }}>
                         <Typography variant="h6">{goal.title}</Typography>
                         <Typography variant="body2" color="text.secondary">
                             {t('coach.goals.progressText', {
@@ -69,12 +80,6 @@ export const GoalsSection = () => {
                         </IconButton>
                     </Stack>
                 </Stack>
-                <LinearProgress
-                    sx={{ mt: 1.5, height: 8, borderRadius: 4 }}
-                    variant="determinate"
-                    aria-label={goal.title}
-                    value={Math.max(0, Math.min(100, goal.progress_pct))} />
-                <Typography variant="caption">{goal.progress_pct}%</Typography>
             </CardContent>
         </Card>)}
 

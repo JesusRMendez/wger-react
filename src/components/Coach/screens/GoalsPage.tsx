@@ -9,7 +9,7 @@ import { WgerContainerFullWidth } from "@/core/ui/Widgets/Container";
 export const GoalsPage = () => {
     const [t] = useTranslation();
 
-    return <WgerContainerFullWidth title={t('coach.goalsPage.title')} maxWidth="md">
+    return <WgerContainerFullWidth title={t('coach.goalsPage.title')} maxWidth="lg">
         <Stack spacing={4}>
             <GoalsSection />
             <RecommendationsCard />
