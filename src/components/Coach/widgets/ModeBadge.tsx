@@ -3,6 +3,7 @@ import React from "react";
 import { useTranslation } from "react-i18next";
 import { Link } from "react-router-dom";
 import { useCoachUsageQuery } from "@/components/Coach/queries";
+import { fontMono } from "@/theme";
 import { makeLink, WgerLink } from "@/core/lib/url";
 
 /*
@@ -24,14 +25,14 @@ export const ModeBadge = () => {
     const total = usage.input_tokens + usage.output_tokens;
     const color = usage.mode === 'server' ? 'primary' : usage.mode === 'byo' ? 'secondary' : 'default';
 
-    return <Stack spacing={0.5} data-testid="coach-mode-badge">
+    return <Stack spacing={0.5} data-testid="coach-mode-badge" sx={{ minWidth: 220 }}>
         <Stack direction="row" spacing={1} sx={{ alignItems: 'center' }}>
             <Chip size="small" color={color} label={t(`coach.mode.${usage.mode}`)} />
             {usage.mode === 'none' && <MuiLink component={Link} to={makeLink(WgerLink.COACH_SETTINGS, i18n.language)}>
                 {t('coach.mode.configure')}
             </MuiLink>}
         </Stack>
-        <Typography variant="caption" color="text.secondary">
+        <Typography variant="caption" color="text.secondary" sx={{ fontFamily: fontMono, fontVariantNumeric: 'tabular-nums' }}>
             {usage.limit
                 ? t('coach.usage.withLimit', { used: total, limit: usage.limit })
                 : t('coach.usage.noLimit', { used: total })}

@@ -1,10 +1,12 @@
 import ArrowDownwardIcon from "@mui/icons-material/ArrowDownward";
 import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
 import ArrowUpwardIcon from "@mui/icons-material/ArrowUpward";
-import { Alert, Box, Card, CardContent, LinearProgress, Stack, ToggleButton, ToggleButtonGroup, Typography } from "@mui/material";
+import { Alert, Card, CardContent, Stack, ToggleButton, ToggleButtonGroup, Typography } from "@mui/material";
 import Grid from "@mui/material/Grid";
 import React, { useState } from "react";
 import { useTranslation } from "react-i18next";
+import { Numeric, Ring } from "@/core/ui/Atlas";
+import { atlas } from "@/theme";
 import { Indicator } from "@/components/Coach/models";
 import { useIndicatorsQuery } from "@/components/Coach/queries";
 
@@ -43,14 +45,14 @@ export const IndicatorsSection = () => {
 
         <Grid container spacing={2}>
             {(data?.indicators ?? []).map((ind, i) => <Grid key={`${ind.key}-${ind.exercise_id ?? i}`} size={{ xs: 6, sm: 4 }}>
-                <Card variant="outlined" data-testid={`indicator-${ind.key}`}>
+                <Card data-testid={`indicator-${ind.key}`}>
                     <CardContent>
-                        <Typography variant="caption" color="text.secondary">{ind.label}</Typography>
+                        <Typography variant="body2" color="text.secondary">{ind.label}</Typography>
                         <Stack direction="row" spacing={0.5} sx={{ alignItems: 'center' }}>
-                            <Typography variant="h5">{ind.value}{ind.unit ? ` ${ind.unit}` : ''}</Typography>
+                            <Numeric size={26} sx={{ letterSpacing: '-0.03em' }}>{ind.value}{ind.unit ? ` ${ind.unit}` : ''}</Numeric>
                             <TrendArrow trend={ind.trend} />
                         </Stack>
-                        {ind.target != null && <Typography variant="caption">
+                        {ind.target != null && <Typography variant="caption" color="text.secondary">
                             {t('coach.indicators.target', { target: ind.target })}
                         </Typography>}
                     </CardContent>
@@ -58,13 +60,23 @@ export const IndicatorsSection = () => {
             </Grid>)}
         </Grid>
 
-        {data && <Card variant="outlined" data-testid="data-quality">
+        {data && <Card data-testid="data-quality">
             <CardContent>
-                <Typography variant="h6">{t('coach.dataQuality.title')}</Typography>
-                <Box sx={{ my: 1 }}>
+                <Stack direction="row" sx={{ justifyContent: 'space-between', alignItems: 'center', mb: 1.5 }}>
+                    <Typography variant="h6">{t('coach.dataQuality.title')}</Typography>
+                </Stack>
+                <Stack direction="row" spacing={2.5} sx={{ alignItems: 'center', mb: 1 }}>
+                    <Ring
+                        value={data.data_quality.score / 100}
+                        size={112}
+                        thickness={10}
+                        color={data.data_quality.score >= 85 ? atlas.ok : data.data_quality.score >= 65 ? atlas.warn : atlas.accent}
+                    >
+                        <Numeric size={30} sx={{ letterSpacing: '-0.05em' }}>{data.data_quality.score}</Numeric>
+                        <Typography variant="caption" color="text.secondary" sx={{ fontSize: 11 }}>/ 100</Typography>
+                    </Ring>
                     <Typography variant="body2">{t('coach.dataQuality.score', { score: data.data_quality.score })}</Typography>
-                    <LinearProgress variant="determinate" value={data.data_quality.score} sx={{ height: 8, borderRadius: 4 }} />
-                </Box>
+                </Stack>
                 {data.data_quality.missing.map(m => <Alert key={m.key} severity="info" sx={{ mt: 1 }}>
                     <strong>{m.title}</strong> {m.detail}
                 </Alert>)}
