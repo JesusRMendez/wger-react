@@ -2,13 +2,14 @@ import DashboardCustomizeIcon from "@mui/icons-material/DashboardCustomize";
 import DoneIcon from '@mui/icons-material/Done';
 import RestartAltIcon from "@mui/icons-material/RestartAlt";
 import RuleIcon from '@mui/icons-material/Rule';
-import { Box, Button, IconButton, ListItemText, Menu, MenuItem, Switch, Tooltip } from "@mui/material";
+import { Box, Button, IconButton, ListItemText, Menu, MenuItem, Switch, Tooltip, Typography } from "@mui/material";
 import { CalendarCard } from "@/components/Dashboard/CalendarCard";
 import { MeasurementCard } from "@/components/Dashboard/MeasurementCard";
 import { NutritionCard } from "@/components/Dashboard/NutritionCard";
 import { RoutineCard } from "@/components/Dashboard/RoutineCard";
 import { TrophiesCard } from "@/components/Dashboard/TrophiesCard";
 import { WeightCard } from "@/components/Dashboard/WeightCard";
+import { dateToLocale } from "@/core/lib/date";
 import React, { useCallback, useEffect, useMemo, useState } from "react";
 import { Layout, LayoutItem, Responsive, ResponsiveLayouts, useContainerWidth, } from "react-grid-layout";
 import "react-grid-layout/css/styles.css";
@@ -53,42 +54,42 @@ export const AVAILABLE_WIDGETS: WidgetConfig[] = [
         type: "routine",
         component: RoutineCard,
         translationKey: 'routines.routine',
-        defaultLayout: { w: 4, h: 4, x: 0, y: 0, minW: 3, minH: 2 },
+        defaultLayout: { w: 8, h: 5, x: 0, y: 0, minW: 3, minH: 2 },
     },
     {
         id: "nutrition",
         type: "nutrition",
         component: NutritionCard,
         translationKey: 'nutritionalPlan',
-        defaultLayout: { w: 4, h: 4, x: 4, y: 0, minW: 3, minH: 2 },
+        defaultLayout: { w: 4, h: 5, x: 8, y: 0, minW: 3, minH: 2 },
     },
     {
         id: "weight",
         type: "weight",
         component: WeightCard,
         translationKey: 'weight',
-        defaultLayout: { w: 4, h: 4, x: 8, y: 0, minW: 3, minH: 2 },
+        defaultLayout: { w: 7, h: 7, x: 0, y: 5, minW: 3, minH: 2 },
     },
     {
         id: "calendar",
         type: "calendar",
         component: CalendarCard,
         translationKey: 'calendar',
-        defaultLayout: { w: 8, h: 4, x: 0, y: 1, minW: 3, minH: 2 },
+        defaultLayout: { w: 8, h: 7, x: 0, y: 12, minW: 3, minH: 2 },
     },
     {
         id: "measurement",
         type: "measurement",
         component: MeasurementCard,
         translationKey: 'measurements.measurements',
-        defaultLayout: { w: 4, h: 4, x: 8, y: 1, minW: 3, minH: 2 },
+        defaultLayout: { w: 5, h: 7, x: 7, y: 5, minW: 3, minH: 2 },
     },
     {
         id: "trophies",
         type: "trophies",
         component: TrophiesCard,
         translationKey: 'trophies.trophies',
-        defaultLayout: { w: 12, h: 2, x: 0, y: 2, minW: 3, minH: 2 },
+        defaultLayout: { w: 4, h: 4, x: 8, y: 12, minW: 3, minH: 2 },
     },
 ];
 
@@ -269,7 +270,7 @@ interface ConfigurableDashboardProps {
 }
 
 export const ConfigurableDashboard: React.FC<ConfigurableDashboardProps> = ({ enabledWidgetIds }) => {
-    const [tRaw] = useTranslation();
+    const [tRaw, i18n] = useTranslation();
     // Cast t to a looser signature so we can call dynamic keys like `dashboard.widgets` without TS errors
     const t = tRaw as unknown as (key: string) => string;
 
@@ -371,7 +372,7 @@ export const ConfigurableDashboard: React.FC<ConfigurableDashboardProps> = ({ en
         () => ({
             className: "layout",
             layouts: layouts,
-            breakpoints: { lg: 1200, md: 996, sm: 768, xs: 480 },
+            breakpoints: { lg: 1040, md: 720, sm: 480, xs: 0 },
             cols: { lg: 12, md: 12, sm: 12, xs: 12 },
             onLayoutChange: handleLayoutChange,
             dragConfig: {
@@ -381,26 +382,34 @@ export const ConfigurableDashboard: React.FC<ConfigurableDashboardProps> = ({ en
             resizeConfig: {
                 enabled: isEditMode,
             },
-            gridConfig: {
-                rowHeight: 100,
-                margin: [16, 16],
-                containerPadding: [0, 0],
-            },
+            // The responsive grid takes these as plain props (a gridConfig is ignored)
+            rowHeight: 80,
+            margin: [16, 16] as [number, number],
+            containerPadding: [0, 0] as [number, number],
         }),
         [layouts, isEditMode, handleLayoutChange]
     );
 
     return (
-        <Box>
+        <Box sx={{ px: { xs: 2, md: 3 }, maxWidth: 1280, mx: 'auto' }}>
             <Box
                 sx={{
                     display: "flex",
-                    justifyContent: "flex-end",
-                    my: 1,
-                    mx: 2,
+                    justifyContent: "space-between",
+                    alignItems: "flex-end",
+                    flexWrap: "wrap",
                     gap: 1,
+                    mb: 2,
+                    mt: { xs: 1, md: 0 },
                 }}
             >
+                <Box>
+                    <Typography component="div" sx={{ color: "text.secondary" }}>
+                        {dateToLocale(new Date(), i18n.language, { weekday: 'long', day: 'numeric', month: 'long' })}
+                    </Typography>
+                    <Typography variant="h3" component="h1">{t('dashboard.title')}</Typography>
+                </Box>
+                <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
                 {isEditMode && (
                     <>
                         <Box
@@ -459,6 +468,7 @@ export const ConfigurableDashboard: React.FC<ConfigurableDashboardProps> = ({ en
                         {isEditMode ? t('save') : t('core.customize')}
                     </Button>
                 </Tooltip>
+                </Box>
             </Box>
 
             <Box ref={containerRef}>

@@ -2,7 +2,12 @@
     "dashboard": {
         "customizeDashboard": "Customize dashboard",
         "dragWidgetsHelp": "Drag widgets to reposition them or resize using the bottom-right corner.",
-        "resetLayout": "Reset to the default layout"
+        "resetLayout": "Reset to the default layout",
+        "today": "Today",
+        "next": "Next up",
+        "setsCount_one": "{{count}} set",
+        "setsCount_other": "{{count}} sets",
+        "title": "Dashboard"
     },
     "core": {
         "exitEditMode": "Exit edit mode",
@@ -430,7 +435,9 @@
                 "countdown": ""
             },
             "begin": "Start"
-        }
+        },
+        "muscles": "Muscles",
+        "musclesHint": "Trained in this routine"
     },
     "measurements": {
         "measurements": "Measurements",

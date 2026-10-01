@@ -13,6 +13,7 @@ import {
     Typography,
     useMediaQuery,
 } from "@mui/material";
+import { keyframes } from "@emotion/react";
 import { useTheme } from "@mui/material/styles";
 import React, { ReactNode, useState } from "react";
 import { useTranslation } from "react-i18next";
@@ -31,6 +32,9 @@ import {
 } from "@/app/layout/navigation";
 
 export const SIDEBAR_WIDTH = 240;
+
+// Page entrance: a short rise and fade
+const rise = keyframes`from { opacity: 0; transform: translateY(10px); }`;
 
 const linkTransition = `background-color ${motion.press}ms ${motion.easing}, color ${motion.press}ms ${motion.easing}, transform ${motion.press}ms ${motion.easing}`;
 
@@ -293,7 +297,15 @@ export const AppShell = ({ children }: { children: ReactNode }) => {
                     px: { xs: 0, md: 1 },
                 }}
             >
-                {children}
+                <Box
+                    key={pathname}
+                    sx={{
+                        animation: `${rise} 420ms ${motion.easing} both`,
+                        '@media (prefers-reduced-motion: reduce)': { animation: 'none' },
+                    }}
+                >
+                    {children}
+                </Box>
             </Box>
         </Box>
     );

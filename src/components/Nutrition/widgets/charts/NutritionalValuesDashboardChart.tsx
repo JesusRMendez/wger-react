@@ -1,12 +1,16 @@
-import { Stack, useTheme } from "@mui/material";
+import { Stack, Typography } from "@mui/material";
 import { NutritionalValues } from "@/components/Nutrition/helpers/nutritionalValues";
 import { LinearPlannedLoggedChart } from "@/components/Nutrition/widgets/charts/LinearPlannedLoggedChart";
+import { Numeric, Ring } from "@/core/ui/Atlas";
+import { atlas } from "@/theme";
 import React from 'react';
 import { useTranslation } from "react-i18next";
-import { Cell, Pie, PieChart } from 'recharts';
 import { numberLocale } from "@/core/lib/numbers";
 
 
+/*
+ * Energy ring (what is left of today's goal) with the three macros next to it
+ */
 export const NutritionalValuesDashboardChart = (props: {
     percentage: NutritionalValues,
     logged: NutritionalValues,
@@ -16,65 +20,40 @@ export const NutritionalValuesDashboardChart = (props: {
     const energyPercentage = props.planned.energy > 0 ? props.logged.energy / props.planned.energy * 100 : 100;
     const energyDiff = props.planned.energy > 0 ? props.planned.energy - props.logged.energy : props.logged.energy;
 
-    const theme = useTheme();
     const [t, i18n] = useTranslation();
-    const data = [
-        {
-            id: 'logged',
-            name: '',
-            value: energyPercentage,
-        },
-        {
-            id: 'remaining',
-            name: '',
-            value: energyPercentage < 100 ? 100 - energyPercentage : 0,
-        },
-    ];
-    const COLORS = [theme.palette.primary.main, '#C5C5C5'];
+    const over = props.planned.energy > 0 && energyPercentage >= 100;
 
-
-    return <Stack direction={'row'}>
-        <PieChart responsive width={'50%'} height={140}>
-            <Pie
-                // cx={0}
-                // cy={'10'}
-                height={100}
-                data={data}
-                startAngle={200}
-                endAngle={-20}
-                innerRadius={60}
-                outerRadius={70}
-                paddingAngle={2}
-                dataKey="value"
-            >
-                {data.map((entry, index) => (
-                    <Cell key={`cell-${entry.id}`} fill={COLORS[index % COLORS.length]} />
-                ))}
-            </Pie>
-            <g>
-                <text x={'50%'} y={'45%'} fontSize="1.25em" textAnchor="middle">{/*fill="#333"*/}
-                    {t('nutrition.valueEnergyKcal', { value: numberLocale(energyDiff, i18n.language) })}
-                </text>
-                <text x={'50%'} y={'60%'} fontSize="1em" textAnchor="middle">
-                    {props.planned.energy > 0 && t(energyPercentage < 100 ? 'nutrition.valueRemaining' : 'nutrition.valueTooMany')}
-                </text>
-            </g>
-        </PieChart>
-        <Stack spacing={1} sx={{ width: '50%' }}>
+    return <Stack direction={'row'} spacing={2.5} sx={{ alignItems: 'center', flexWrap: 'wrap', rowGap: 2 }}>
+        <Ring
+            value={energyPercentage / 100}
+            size={100}
+            thickness={9}
+            color={over ? atlas.warn : atlas.ink}
+            label={t('nutrition.valueEnergyKcal', { value: numberLocale(energyDiff, i18n.language) })}
+        >
+            <Numeric size={22}>{numberLocale(Math.abs(energyDiff), i18n.language)}</Numeric>
+            <Typography variant="caption" color="text.secondary" sx={{ fontSize: 11, lineHeight: 1.2 }}>
+                kcal{props.planned.energy > 0 && <> {t(over ? 'nutrition.valueTooMany' : 'nutrition.valueRemaining')}</>}
+            </Typography>
+        </Ring>
+        <Stack spacing={1.25} sx={{ flex: 1, minWidth: 190 }}>
             <LinearPlannedLoggedChart
                 title={t('nutrition.protein')}
+                color={atlas.protein}
                 percentage={props.percentage.protein}
                 logged={props.logged.protein}
                 planned={props.planned.protein}
             />
             <LinearPlannedLoggedChart
                 title={t('nutrition.carbohydrates')}
+                color={atlas.carbs}
                 percentage={props.percentage.carbohydrates}
                 logged={props.logged.carbohydrates}
                 planned={props.planned.carbohydrates}
             />
             <LinearPlannedLoggedChart
                 title={t('nutrition.fat')}
+                color={atlas.fat}
                 percentage={props.percentage.fat}
                 logged={props.logged.fat}
                 planned={props.planned.fat}
