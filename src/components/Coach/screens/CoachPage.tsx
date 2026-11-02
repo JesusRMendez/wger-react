@@ -1,4 +1,6 @@
-import { Box, Stack, Tab, Tabs } from "@mui/material";
+import LinkOutlinedIcon from "@mui/icons-material/LinkOutlined";
+import TrackChangesOutlinedIcon from "@mui/icons-material/TrackChangesOutlined";
+import { Box, Button, Stack, Tab, Tabs } from "@mui/material";
 import React, { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Link } from "react-router-dom";
@@ -16,11 +18,13 @@ export const CoachPage = () => {
 
     return <WgerContainerFullWidth title={t('coach.title')} maxWidth="md">
         <Stack spacing={3}>
-            <Stack direction="row" sx={{ justifyContent: 'space-between', alignItems: 'flex-start' }}>
+            <Stack direction="row" sx={{ justifyContent: 'space-between', alignItems: 'flex-start', flexWrap: 'wrap', gap: 2 }}>
                 <ModeBadge />
-                <Stack direction="row" spacing={2}>
-                    <Link to={makeLink(WgerLink.COACH_GOALS, i18n.language)}>{t('coach.goalsLink')}</Link>
-                    <Link to={makeLink(WgerLink.COACH_SETTINGS, i18n.language)}>{t('coach.settingsLink')}</Link>
+                <Stack direction="row" spacing={1} sx={{ flexWrap: 'wrap', rowGap: 1 }}>
+                    <Button component={Link} variant="outlined" startIcon={<TrackChangesOutlinedIcon />}
+                            to={makeLink(WgerLink.COACH_GOALS, i18n.language)}>{t('coach.goalsLink')}</Button>
+                    <Button component={Link} variant="outlined" startIcon={<LinkOutlinedIcon />}
+                            to={makeLink(WgerLink.COACH_SETTINGS, i18n.language)}>{t('coach.settingsLink')}</Button>
                 </Stack>
             </Stack>
 

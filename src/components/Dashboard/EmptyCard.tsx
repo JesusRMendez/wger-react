@@ -39,7 +39,7 @@ export const EmptyCard = (props: {
                 sx={{ paddingBottom: 0 }} />
 
             <CardContent>
-                <OverviewEmpty height={'50%'} />
+                <OverviewEmpty height={'160px'} />
             </CardContent>
 
             <CardActions>

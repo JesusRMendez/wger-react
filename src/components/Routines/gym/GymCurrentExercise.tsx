@@ -25,6 +25,7 @@ import {
     weightUnitKind,
 } from "@/components/Routines/gym/gymSession";
 import { Abbr } from "@/core/glossary";
+import { atlas, motion, numeric } from "@/theme";
 import { REP_UNIT_REPETITIONS } from "@/core/lib/consts";
 import DeleteIcon from "@mui/icons-material/DeleteOutlined";
 import {
@@ -139,6 +140,7 @@ const GymSetInputs = (props: {
                     htmlInput: { inputMode: 'decimal' }
                 }}
                 fullWidth
+                sx={numericInputSx}
             />
             <TextField
                 label={weightLabel}
@@ -155,6 +157,7 @@ const GymSetInputs = (props: {
                     htmlInput: { inputMode: 'decimal' }
                 }}
                 fullWidth
+                sx={numericInputSx}
             />
         </Stack>
 
@@ -191,6 +194,8 @@ const GymSetInputs = (props: {
     </Stack>;
 };
 
+
+const numericInputSx = { '& input': { ...numeric, fontSize: 22, fontWeight: 600, py: 1.5 } };
 
 const GymLoggedSets = (props: {
     state: GymState,
@@ -263,7 +268,21 @@ export const GymCurrentExercise = (props: {
         <Card>
             <CardHeader
                 avatar={<ExerciseImageAvatar image={exercise.exercise.mainImage} avatarSize={72} iconSize={48} />}
-                title={<Typography variant="h5">{exerciseName(exercise, props.language)}</Typography>}
+                action={<Stack direction="row" spacing={0.75} aria-hidden sx={{ pt: 1, pr: 1 }}>
+                    {Array.from({ length: exercise.nrOfSets }, (_, i) => <Box
+                        key={`set-dot-${exercise.key}-${i}`}
+                        sx={{
+                            width: 14,
+                            height: 14,
+                            borderRadius: 999,
+                            boxSizing: 'border-box',
+                            border: `2px solid ${i < done ? atlas.ok : i === done ? atlas.ink : atlas.line2}`,
+                            bgcolor: i < done ? atlas.ok : 'transparent',
+                            transition: `background-color 300ms ${motion.easing}, border-color 300ms ${motion.easing}`,
+                        }}
+                    />)}
+                </Stack>}
+                title={<Typography variant="h5" component="h2">{exerciseName(exercise, props.language)}</Typography>}
                 subheader={t('routines.gym.setNofM', {
                     number: Math.min(done + 1, exercise.nrOfSets),
                     total: exercise.nrOfSets
@@ -275,7 +294,7 @@ export const GymCurrentExercise = (props: {
 
                     <Box>
                         <Typography variant="subtitle2">{t('routines.gym.planned')}</Typography>
-                        <Typography>
+                        <Typography sx={{ ...numeric, fontSize: 16, fontWeight: 600 }}>
                             {describePlannedSet(exercise) || t('routines.gym.noPlannedValues')}
                             {exercise.type !== 'normal'
                                 && <Chip label={<Abbr term={exercise.type}>{exercise.type}</Abbr>} color="info"

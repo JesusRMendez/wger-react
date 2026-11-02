@@ -5,6 +5,7 @@ import { SetConfigData } from "@/components/Routines/models/SetConfigData";
 import { Slot } from "@/components/Routines/models/Slot";
 import { SlotData } from "@/components/Routines/models/SlotData";
 import { useRoutineDetailQuery } from "@/components/Routines/queries";
+import { atlas } from "@/theme";
 import { isSameDay } from "@/core/lib/date";
 import { makeLink, WgerLink } from "@/core/lib/url";
 import { RenderLoadingQuery } from "@/core/ui/Widgets/RenderLoadingQuery";
@@ -23,8 +24,7 @@ import {
     Divider,
     IconButton,
     Stack,
-    Typography,
-    useTheme
+    Typography
 } from "@mui/material";
 import Grid from '@mui/material/Grid';
 import Tooltip from "@mui/material/Tooltip";
@@ -221,7 +221,6 @@ export const DayDetailsCard = (props: {
 }) => {
     const readOnly = (props.readOnly ?? false) || props.day.isRest;
 
-    const theme = useTheme();
     const [t, i18n] = useTranslation();
 
     const isToday = props.dayData !== null && isSameDay(props.dayData.date, new Date());
@@ -232,10 +231,10 @@ export const DayDetailsCard = (props: {
     return (
         <Card sx={{ minWidth: 275 }}>
             <CardHeader
-                sx={{ bgcolor: theme.palette.grey.A200 }}
+                sx={{ bgcolor: atlas.surface2, borderBottom: `1px solid ${atlas.line}`, '& .MuiCardHeader-action': { alignSelf: 'center', m: 0 }, flexWrap: 'wrap', rowGap: 1 }}
                 action={readOnly
                     ? null
-                    : <Stack direction="row" sx={{ alignItems: "center" }}>
+                    : <Stack direction="row" spacing={1} sx={{ alignItems: "center", flexWrap: "wrap", rowGap: 1 }}>
                         {(slotData.length > 0 || props.day.slots.length > 0) && <Button
                             size="small"
                             variant="contained"
@@ -267,7 +266,7 @@ export const DayDetailsCard = (props: {
                         </Tooltip>
                     </Stack>}
                 title={<Typography variant={"h5"}>{getDayName(props.day)}</Typography>}
-                avatar={isToday ? <TodayIcon /> : null}
+                avatar={isToday ? <Chip size="small" color="primary" icon={<TodayIcon />} label={t('dashboard.today')} /> : null}
                 subheader={subheader}
             />
             {slotData.length > 0 && <CardContent sx={{ padding: 0, marginBottom: 0 }}>

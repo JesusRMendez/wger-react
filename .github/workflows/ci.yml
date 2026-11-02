@@ -1,9 +1,12 @@
 name: Continuous Integration
 
 on:
+  # Called by notify-backend.yml, which is the one that runs for pushes to master
+  workflow_call:
   push:
     branches:
       - '*'
+      - '!master'
   pull_request:
     branches:
       - master

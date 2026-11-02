@@ -66,6 +66,8 @@ import {
     Typography,
 } from "@mui/material";
 import Grid from "@mui/material/Grid";
+import { Ring } from "@/core/ui/Atlas";
+import { atlas, numeric } from "@/theme";
 import React, { useEffect, useReducer, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 
@@ -157,6 +159,29 @@ const warningText = (t: (key: string, options?: Record<string, unknown>) => stri
  * transitions are in guidedEngine, this component wires them to the clock, the
  * alerts and the layout.
  */
+/*
+ * The big clock of the guided mode inside a progress ring
+ */
+const ClockRing = (props: { text: string | number, ratio: number, color?: string, textColor?: string, size?: number }) => {
+    const size = props.size ?? 176;
+    return <Stack sx={{ alignItems: 'center' }}>
+        <Ring value={props.ratio} size={size} thickness={11} duration={1000} color={props.color ?? atlas.ink}>
+            <Typography component="p" data-testid="guided-clock"
+                        sx={{
+                            ...numeric,
+                            m: 0,
+                            fontSize: size * 0.28,
+                            fontWeight: 600,
+                            letterSpacing: '-0.05em',
+                            lineHeight: 1,
+                            color: props.textColor ?? atlas.ink,
+                        }}>
+                {props.text}
+            </Typography>
+        </Ring>
+    </Stack>;
+};
+
 export const GuidedRoutine = (props: {
     exercises: GymExercise[],
     language?: Language,
@@ -327,10 +352,12 @@ export const GuidedRoutine = (props: {
 
                 {phase === 'countdown' && <>
                     {exercise !== undefined && <Typography variant="h5">{exerciseName(exercise, props.language)}</Typography>}
-                    <Typography variant="h1" component="p" data-testid="guided-clock"
-                                sx={{ textAlign: 'center', fontVariantNumeric: 'tabular-nums' }}>
-                        {Math.min(COUNTDOWN_SECONDS, remaining ?? COUNTDOWN_SECONDS)}
-                    </Typography>
+                    <ClockRing
+                        text={Math.min(COUNTDOWN_SECONDS, remaining ?? COUNTDOWN_SECONDS)}
+                        ratio={Math.min(COUNTDOWN_SECONDS, remaining ?? COUNTDOWN_SECONDS) / COUNTDOWN_SECONDS}
+                        color={atlas.warn}
+                        textColor={atlas.warnText}
+                    />
                 </>}
 
                 {phase === 'work' && exercise !== undefined && <>
@@ -340,10 +367,10 @@ export const GuidedRoutine = (props: {
                     </Stack>
                     <Typography>{describePlannedSet(exercise) || t('routines.gym.noPlannedValues')}</Typography>
                     {exercise.rir !== null && <Typography variant="body2"><Abbr term="RIR" />: {exercise.rir}</Typography>}
-                    {workKind === 'timed' && <Typography variant="h2" component="p" data-testid="guided-clock"
-                                                         sx={{ textAlign: 'center', fontVariantNumeric: 'tabular-nums' }}>
-                        {clockText}
-                    </Typography>}
+                    {workKind === 'timed' && <ClockRing
+                        text={clockText}
+                        ratio={phaseDuration ? Math.min(1, phaseElapsed(state, now) / phaseDuration) : 0}
+                    />}
                     {(exercise.weight !== null || weightUnitKind(exercise.weightUnit) !== 'none') && <WeightField
                         key={exercise.key}
                         exercise={exercise}
@@ -367,14 +394,11 @@ export const GuidedRoutine = (props: {
                     {restedExercise !== undefined && <Typography variant="body2">
                         {t('routines.gym.restAfter', { name: exerciseName(restedExercise, props.language) })}
                     </Typography>}
-                    <Typography variant="h2" component="p" data-testid="guided-clock"
-                                sx={{ textAlign: 'center', fontVariantNumeric: 'tabular-nums' }}>
-                        {clockText}
-                    </Typography>
-                    <LinearProgress
-                        variant="determinate"
-                        value={phaseDuration ? Math.min(100, 100 * phaseElapsed(state, now) / phaseDuration) : 0}
-                        aria-hidden
+                    <ClockRing
+                        text={clockText}
+                        ratio={phaseDuration ? Math.min(1, phaseElapsed(state, now) / phaseDuration) : 0}
+                        color={restIsOver ? atlas.ok : atlas.ink}
+                        textColor={restIsOver ? atlas.okText : atlas.ink}
                     />
                     {upcomingExercise !== undefined && upcoming !== undefined && <Card variant="outlined"
                                                                                        data-testid="next-intro">

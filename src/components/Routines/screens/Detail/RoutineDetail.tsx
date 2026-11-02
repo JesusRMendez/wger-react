@@ -1,4 +1,4 @@
-import { Box, Button, Chip, Stack, Typography } from "@mui/material";
+import { Box, Button, Card, CardContent, CardHeader, Chip, Stack, Typography } from "@mui/material";
 import Grid from "@mui/material/Grid";
 import { WgerContainerRightSidebar } from "@/core/ui/Widgets/Container";
 import { RenderLoadingQuery } from "@/core/ui/Widgets/RenderLoadingQuery";
@@ -52,20 +52,28 @@ export const RoutineDetail = () => {
                             href={makeLink(WgerLink.ROUTINE_COPY, i18n.language, { id: routineId })}
                             variant={"contained"}
                         >{t('routines.copyAndUseTemplate')}</Button>}
-                        {routine!.daysCurrentIteration.map(({ day, dayData }) =>
-                            <DayDetailsCard
-                                routineId={routineId}
-                                day={day}
-                                dayData={dayData}
-                                key={`dayDetails-${day.id}`}
-                                readOnly={routine!.isTemplate}
-                            />
-                        )}
+                        <Box sx={{
+                            display: 'grid',
+                            gridTemplateColumns: { xs: 'minmax(0, 1fr)', lg: 'repeat(auto-fill, minmax(380px, 1fr))' },
+                            gap: 2,
+                            alignItems: 'start',
+                        }}>
+                            {routine!.daysCurrentIteration.map(({ day, dayData }) =>
+                                <DayDetailsCard
+                                    routineId={routineId}
+                                    day={day}
+                                    dayData={dayData}
+                                    key={`dayDetails-${day.id}`}
+                                    readOnly={routine!.isTemplate}
+                                />
+                            )}
+                        </Box>
                     </Stack>
                 }
-                sideBar={
-                    <Stack>
-                        <Box sx={{ height: 40 }} />
+                sideBar={(routine!.mainMuscles.length + routine!.secondaryMuscles.length) === 0 ? undefined :
+                    <Card>
+                        <CardHeader title={t('routines.muscles')} subheader={t('routines.musclesHint')} />
+                        <CardContent>
                         <Grid container>
                             <Grid size={6}>
                                 <MuscleOverview
@@ -82,7 +90,8 @@ export const RoutineDetail = () => {
                                 />
                             </Grid>
                         </Grid>
-                    </Stack>
+                        </CardContent>
+                    </Card>
                 }
             />}
     />;

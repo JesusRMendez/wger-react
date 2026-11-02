@@ -1,4 +1,5 @@
 import { Card, CardActions, CardContent, CardHeader } from "@mui/material";
+import { atlas, motion } from "@/theme";
 import React from "react";
 
 export interface DashboardCardProps {
@@ -37,6 +38,11 @@ export interface DashboardCardProps {
      * Whether the content should scroll when it overflows (default: true)
      */
     scrollable?: boolean;
+
+    /**
+     * "dark" renders the card as an ink surface, used for the hero card of the dashboard
+     */
+    tone?: "default" | "dark";
 
     /**
      * Additional sx props for the Card component
@@ -81,6 +87,7 @@ export const DashboardCard: React.FC<DashboardCardProps> = (
     headerAction,
     contentHeight,
     scrollable = true,
+    tone = "default",
     cardSx = {},
     contentSx = {},
 }) => {
@@ -90,6 +97,16 @@ export const DashboardCard: React.FC<DashboardCardProps> = (
                 height: "100%",
                 display: "flex",
                 flexDirection: "column",
+                transition: `border-color 240ms ${motion.easing}, box-shadow 240ms ${motion.easing}`,
+                '&:hover': { borderColor: tone === "dark" ? atlas.ink : atlas.line2 },
+                ...(tone === "dark" ? {
+                    bgcolor: atlas.ink,
+                    borderColor: atlas.ink,
+                    color: atlas.onInk,
+                    '& .MuiCardHeader-subheader': { color: atlas.onInkMuted },
+                    '& .MuiButton-text': { color: atlas.onInk, '&:hover': { backgroundColor: 'rgba(255,255,255,.08)' } },
+                    '& .MuiIconButton-root': { color: atlas.onInk, '&:hover': { backgroundColor: 'rgba(255,255,255,.08)' } },
+                } : {}),
                 ...cardSx,
             }}
         >
@@ -100,6 +117,8 @@ export const DashboardCard: React.FC<DashboardCardProps> = (
                     flexGrow: 1,
                     overflow: scrollable ? "auto" : "visible",
                     minHeight: 0, // Critical for flexbox scrolling
+                    // A scrollbar appearing and disappearing changes the width of the charts
+                    scrollbarGutter: scrollable ? "stable" : undefined,
                     height: contentHeight,
                     ...contentSx,
                 }}
